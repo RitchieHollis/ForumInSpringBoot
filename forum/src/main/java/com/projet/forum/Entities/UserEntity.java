@@ -2,6 +2,8 @@ package com.projet.forum.Entities;
 
 import java.util.List;
 
+import org.aspectj.weaver.ast.Instanceof;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,4 +41,20 @@ public class UserEntity extends BaseEntity{
 
     @Column
     private List<Category> user_category;
+    
+    public boolean equals(UserEntity u){
+
+        if(u instanceof UserEntity && this.getId() == u.getId())
+            return true;
+
+        if(this.getMail() == u.getMail()                        &&
+           this.getPassword() == u.getPassword()                &&
+           this.getRole() == u.getRole()                        &&
+           this.getUser_category().equals(u.getUser_category()) &&
+           this.getUser_info() == u.getUser_info())
+           return true;
+        
+        return false;
+    }
+    
 }
