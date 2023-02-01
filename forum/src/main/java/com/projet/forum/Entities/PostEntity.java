@@ -21,7 +21,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
 public class PostEntity extends BaseEntity{
     
     @Id

@@ -19,8 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
-public class ChannelEntity {
+public class ChannelEntity extends BaseEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +33,5 @@ public class ChannelEntity {
     private Category category;
 
     @OneToMany(mappedBy = "channel")
-    private List<MessageEntity> messages;
+    private List<PostEntity> posts;
 }
