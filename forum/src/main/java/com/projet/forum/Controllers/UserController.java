@@ -10,11 +10,10 @@ import com.projet.forum.Services.UserServices.UserServiceImpl;
 @RestController("/users")
 public class UserController {
     
-    private final UserRepository repository;
     private final UserServiceImpl service;
 
     public UserController(UserRepository repo, UserServiceImpl ser){
-        this.repository = repo;
+
         this.service = ser;
     }
 
@@ -24,5 +23,4 @@ public class UserController {
         UserEntity user = service.createUser(mail, password, login);
         return "sing_up_succesful";
     }
-
 }

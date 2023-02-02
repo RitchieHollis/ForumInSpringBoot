@@ -9,5 +9,5 @@ public interface UserInfoService {
     
     public abstract Map<Map<String, Status>, byte[]> displayInfo(Long id);
 
-    public abstract List<?> showInfoOnProfileChart(Long id);
+    public abstract List<?> showInfoOnProfileChart(Long id); //this or simply get functions separately
 }
