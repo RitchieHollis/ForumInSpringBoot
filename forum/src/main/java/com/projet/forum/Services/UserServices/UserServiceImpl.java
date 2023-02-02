@@ -1,6 +1,7 @@
 package com.projet.forum.Services.UserServices;
 
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.UserEntity;
@@ -8,6 +9,7 @@ import com.projet.forum.Exceptions.UserExceptions.UserAlreadyExistException;
 import com.projet.forum.Exceptions.UserExceptions.InexistantUserException;
 import com.projet.forum.Repositories.UserRepository;
 
+@Service
 public class UserServiceImpl implements UserService{
     
     private UserRepository repository;

@@ -22,7 +22,7 @@ public class UserController {
     public String createAccount(String mail, String password, String login){
 
         UserEntity user = service.createUser(mail, password, login);
-        return "sing_up";
+        return "sing_up_succesful";
     }
 
 }
