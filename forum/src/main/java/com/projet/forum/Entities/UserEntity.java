@@ -47,11 +47,11 @@ public class UserEntity extends BaseEntity{
         if(u instanceof UserEntity && this.getId() == u.getId())
             return true;
 
-        if(this.getMail() == u.getMail()                        &&
-           this.getPassword() == u.getPassword()                &&
-           this.getRole() == u.getRole()                        &&
+        if(this.getMail().equals(u.getMail())                   &&
+           this.getPassword().equals(u.getPassword())           &&
+           this.getRole().equals(u.getRole())                   &&
            this.getUser_category().equals(u.getUser_category()) &&
-           this.getUser_info() == u.getUser_info())
+           this.getUser_info().equals(u.getUser_info()))
            return true;
         
         return false;

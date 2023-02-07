@@ -1,6 +1,7 @@
 package com.projet.forum.Repositories;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
@@ -9,12 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import com.projet.forum.Entities.MessageEntity;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
-public interface MessageRepository extends CrudRepository<MessageEntity,Long>{
+public interface MessageRepository extends JpaRepository<MessageEntity,Long>{
     
-    @Query("SELECT created_at, modified_at FROM MessageEntity WHERE message_id = :id")
-    Map<LocalDate, LocalDate> displayTimeInfo(@Param("id") Long id);
+    @Query("SELECT u.created_at FROM MessageEntity u WHERE u.id = :id")
+    LocalDate displayCreatedAt(@Param(value = "id") Long id);
 
-    @Query("SELECT login FROM UserInfoEntity WHERE (user_id = MessageEntity.user_id) AND (MessageEntity.message_id = :id)")
-    String displayUser(@Param("id") Long id);
+    @Query("SELECT u.modified_at FROM MessageEntity u WHERE u.id = :id")
+    LocalDate displayModifiedAt(@Param(value = "id") Long id);
+
 }

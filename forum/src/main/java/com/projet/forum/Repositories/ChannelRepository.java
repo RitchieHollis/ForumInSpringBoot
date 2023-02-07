@@ -10,13 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import com.projet.forum.Entities.ChannelEntity;
 import com.projet.forum.Entities.PostEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface ChannelRepository extends CrudRepository<ChannelEntity,Long>{
+public interface ChannelRepository extends JpaRepository<ChannelEntity,Long>{
     
-    @Query("SELECT posts FROM ChannelEntity")
+    @Query("SELECT u.posts FROM ChannelEntity u")
     List<PostEntity> findAllPosts(Long id);
 
-    @Query("SELECT created_at, modified_at FROM ChannelEntity WHERE channel_id = :id")
-    Map<LocalDate, LocalDate> displayTimeInfo(@Param("id") Long id);
+    @Query("SELECT u.created_at, u.modified_at FROM ChannelEntity u WHERE u.id = :id")
+    List<LocalDate> displayTimeInfo(@Param("id") Long id);
 }

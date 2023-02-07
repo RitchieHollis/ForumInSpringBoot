@@ -1,13 +1,17 @@
 package com.projet.forum.Controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Services.UserServices.UserServiceImpl;
 
-@RestController("/users")
+@RestController("/sing_up")
 public class UserController {
     
     private final UserServiceImpl service;
@@ -17,10 +21,10 @@ public class UserController {
         this.service = ser;
     }
 
-    @GetMapping("/sing_up")
-    public String createAccount(String mail, String password, String login){
+    @PostMapping(value = "/sing_up_succesful")
+    public UserEntity createAccount(String mail, String password, String login){
 
         UserEntity user = service.createUser(mail, password, login);
-        return "sing_up_succesful";
+        return service.saveUser(user);
     }
 }

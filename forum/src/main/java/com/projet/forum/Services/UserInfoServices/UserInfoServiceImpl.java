@@ -1,5 +1,6 @@
 package com.projet.forum.Services.UserInfoServices;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Entities.UserInfoEntity;
@@ -13,8 +14,22 @@ import java.util.Map;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService{
-    
+    @Autowired
+
     private UserInfoRepository repository;
+
+    @Override public Map<String, Status> displayTextInfo(Long id){
+        
+        UserInfoEntity user = repository.findById(id).orElse(null);
+
+        if(user != null){
+
+            Map<String, Status> user_text = new HashMap<>();
+            user_text.put(user.getLogin(), user.getStatus());
+            return user_text;
+        }
+        else return null;
+    }
 
     @Override public Map<Map<String, Status>, byte[]> displayInfo(Long id){
 
@@ -22,11 +37,8 @@ public class UserInfoServiceImpl implements UserInfoService{
 
         if(user != null){
 
-            Map<String, Status> user_text = new HashMap<>();
-            user_text.put(user.getLogin(), user.getStatus());
-
-            Map<Map<String, Status>, byte[]> user_display = new HashMap<>() {{
-                put(user_text, user.getProfile_picture());
+             Map<Map<String, Status>, byte[]> user_display = new HashMap<>() {{
+                put(displayTextInfo(id), user.getProfile_picture());
             }};
 
             return user_display;
