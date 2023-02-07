@@ -4,5 +4,6 @@ Back-end for Mini-forum in Spring Boot (in progress)
 
 TODO:
 
-  - Finish UserService & MessageService
-  - Create other Services & controllers
+  - Finish Services
+  - Resolve RESTControllers paths for UserInfoController
+  - Resolve ftlh files for UserInfoController
