@@ -1,11 +1,13 @@
 package com.projet.forum.Services.UserServices;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
 import com.projet.forum.Entities.UserEntity;
@@ -14,6 +16,8 @@ import com.projet.forum.Exceptions.UserExceptions.UserAlreadyExistException;
 import com.projet.forum.Exceptions.UserExceptions.InexistantUserException;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Repositories.UserInfoRepository;
+import com.projet.forum.Exceptions.UserExceptions.*;
+import com.projet.forum.Repositories.MessageRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -21,10 +25,12 @@ public class UserServiceImpl implements UserService{
 
     private UserRepository repository;
     private UserInfoRepository i_repository;
+    private final MessageRepository m_repository;
 
-    public UserServiceImpl(UserRepository ur, UserInfoRepository uir){
+    public UserServiceImpl(UserRepository ur, UserInfoRepository uir, MessageRepository mr){
         this.repository = ur;
         this.i_repository = uir;
+        this.m_repository = mr;
     }
 
     @Override public UserEntity createUser(String mail, String password, String login){
@@ -68,5 +74,25 @@ public class UserServiceImpl implements UserService{
     @Override public List<UserEntity> findAllUsers(){
 
         return repository.findAll();
+    }
+    @Override public UserEntity findUserById(Long id){
+
+        UserEntity user = repository.findById(id).orElseThrow();
+
+        if(user != null)
+            return user;
+        else throw new InexistantUserException("User not found");
+    }
+    @Override public int findTotalMessagesOfUser(Long id){
+
+        UserEntity user = repository.findById(id).orElseThrow();
+
+        if(user != null){
+            List<MessageEntity> listMessages = m_repository.findAllMessagesOfUser(id);
+            if(listMessages.isEmpty())
+                return 0;
+            else return listMessages.size();
+        }
+        else throw new InexistantUserException("User not found");
     }
 }

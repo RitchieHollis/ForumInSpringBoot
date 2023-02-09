@@ -1,23 +1,22 @@
 package com.projet.forum.Controllers;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.projet.forum.Services.UserServices.*;
+
+import jakarta.websocket.server.PathParam;
+
 import com.projet.forum.Services.UserInfoServices.*;
-import com.projet.forum.Entities.Status;
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoProfileDto;
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
 import com.projet.forum.Entities.UserEntity;
 
-import java.util.Map;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.projet.forum.dtos.userInfos.UserInfoStateDto;
 
 @RestController()
 @RequestMapping("/users_info")
@@ -38,5 +37,21 @@ public class UserInfoController {
             it.getUser_info().getLogin(),
             it.getUser_info().getStatus(),
             it.getUser_info().getProfile_picture())).toList();
+    }
+
+    @GetMapping("/userProfile/{id}")
+    @ResponseBody
+    public UserInfoProfileDto showProfileOfUser(@PathVariable Long id){
+
+        UserEntity user = service.findUserById(id);
+        int nbreMessages = service.findTotalMessagesOfUser(id);
+        UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),
+                                      user.getUser_info().getProfile_picture(),
+                                      user.getUser_info().getStatus(),
+                                      user.getUser_info().getBio(),
+                                      user.getUser_info().getAge(), 
+                                      user.getUser_info().getBadges(),
+                                      nbreMessages);
+        return dto;
     }
 }

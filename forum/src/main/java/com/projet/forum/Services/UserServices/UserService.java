@@ -1,6 +1,7 @@
 package com.projet.forum.Services.UserServices;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.projet.forum.Entities.UserEntity;
 
@@ -16,4 +17,7 @@ public interface UserService {
 
     public abstract List<UserEntity> findAllUsers();
 
+    public abstract UserEntity findUserById(Long id);
+
+    public abstract int findTotalMessagesOfUser(Long id);
 }

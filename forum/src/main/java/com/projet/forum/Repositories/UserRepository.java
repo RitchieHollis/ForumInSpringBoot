@@ -18,7 +18,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
     List<LocalDate> showAccountCreationDate(@Param(value = "id") Long id);
 
     Optional<UserEntity> findByMail(String mail);
-
-    @Query("SELECT u FROM MessageEntity u WHERE u.user_author = :id")
-    List<MessageEntity> findAllMessagesOfUser(@Param("id") Long id);
 }
