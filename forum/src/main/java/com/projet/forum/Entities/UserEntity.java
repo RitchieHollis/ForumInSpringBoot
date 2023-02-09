@@ -39,7 +39,7 @@ public class UserEntity extends BaseEntity{
     @OneToOne
     private UserInfoEntity user_info;
 
-    @Column
+    @Column(nullable = true)
     private List<Category> user_category;
     
     public boolean equals(UserEntity u){

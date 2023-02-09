@@ -7,19 +7,24 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.projet.forum.Entities.Role;
+import com.projet.forum.Entities.Status;
 import com.projet.forum.Entities.UserEntity;
+import com.projet.forum.Entities.UserInfoEntity;
 import com.projet.forum.Exceptions.UserExceptions.UserAlreadyExistException;
 import com.projet.forum.Exceptions.UserExceptions.InexistantUserException;
 import com.projet.forum.Repositories.UserRepository;
+import com.projet.forum.Repositories.UserInfoRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
 
     private UserRepository repository;
+    private UserInfoRepository i_repository;
 
-    public UserServiceImpl(UserRepository ur){
+    public UserServiceImpl(UserRepository ur, UserInfoRepository uir){
         this.repository = ur;
+        this.i_repository = uir;
     }
 
     @Override public UserEntity createUser(String mail, String password, String login){
@@ -28,12 +33,17 @@ public class UserServiceImpl implements UserService{
         newUser.setMail(mail);
         newUser.setPassword(password);
         newUser.setRole(Role.USER);
-        newUser.getUser_info().setLogin(login);
+
+        UserInfoEntity userInfo = new UserInfoEntity();
+        userInfo.setLogin(login);
+        userInfo.setStatus(Status.OFFLINE); //for testing, auto value to implement in service/controller
+        newUser.setUser_info(userInfo);
         
         if(repository.exists(Example.of(newUser)))
             throw new UserAlreadyExistException("This mail is already used");
         else{
 
+            i_repository.save(userInfo);
             UserEntity savedUser = repository.save(newUser);
             return savedUser;
         }
@@ -46,8 +56,10 @@ public class UserServiceImpl implements UserService{
 
         if(repository.findById(id) == null)
             throw new InexistantUserException("This user doesn't exist");
-        else
+        else{
+            i_repository.deleteById(repository.findById(id).get().getUser_info().getId());
             repository.deleteById(id);
+        }
     }
     @Override public UserEntity saveUser(UserEntity user){
 

@@ -26,23 +26,23 @@ public class UserInfoEntity extends BaseEntity{
     @Column
     private String login;
 
-    private String format; //for profile_picture
-    @Column
+    private String format = "png"; //for profile_picture
+    @Column(nullable = true)
     private byte[] profile_picture;
 
-    @Column
+    @Column(nullable = true)
     private String bio;
 
-    @Column
+    @Column(nullable = true)
     private Date age;
 
-    @Column
+    @Column(nullable = true)
     private List<Badge> badges;
 
     @Column
     private Status status;
 
-    @Column
+    @Column(nullable = true)
     private List<String> warnings;
 
     //@Column

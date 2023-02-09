@@ -3,8 +3,10 @@ package com.projet.forum.Services.UserInfoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.projet.forum.Repositories.UserInfoRepository;
+import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Entities.UserInfoEntity;
 import com.projet.forum.Entities.Status;
+import com.projet.forum.Entities.UserEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,19 +19,21 @@ public class UserInfoServiceImpl implements UserInfoService{
     @Autowired
 
     private final UserInfoRepository repository;
+    private final UserRepository u_repository;
 
-    public UserInfoServiceImpl(UserInfoRepository uir){
+    public UserInfoServiceImpl(UserInfoRepository uir, UserRepository ur){
         this.repository = uir;
+        this.u_repository = ur;
     }
 
     @Override public Map<String, Status> displayTextInfo(Long id){
         
-        UserInfoEntity user = repository.findById(id).orElse(null);
+        UserEntity user = u_repository.findById(id).orElse(null);
 
         if(user != null){
 
             Map<String, Status> user_text = new HashMap<>();
-            user_text.put(user.getLogin(), user.getStatus());
+            user_text.put(user.getUser_info().getLogin(), user.getUser_info().getStatus());
             return user_text;
         }
         else return null;
@@ -37,12 +41,12 @@ public class UserInfoServiceImpl implements UserInfoService{
 
     @Override public Map<Map<String, Status>, byte[]> displayInfo(Long id){
 
-        UserInfoEntity user = repository.findById(id).orElse(null);
+        UserEntity user = u_repository.findById(id).orElse(null);
 
         if(user != null){
 
              Map<Map<String, Status>, byte[]> user_display = new HashMap<>() {{
-                put(displayTextInfo(id), user.getProfile_picture());
+                put(displayTextInfo(id), user.getUser_info().getProfile_picture());
             }};
 
             return user_display;
