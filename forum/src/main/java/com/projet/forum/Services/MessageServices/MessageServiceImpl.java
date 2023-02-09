@@ -11,9 +11,15 @@ public class MessageServiceImpl implements MessageService{
     
     @Autowired
 
-    private MessageRepository repository;
-    private UserRepository u_repository;
-    private PostRepository p_repository;
+    private final MessageRepository repository;
+    private final UserRepository u_repository;
+    private final PostRepository p_repository;
+
+    public MessageServiceImpl(MessageRepository mr, UserRepository ur, PostRepository pr){
+        this.repository = mr;
+        this.u_repository = ur;
+        this.p_repository = pr;
+    }
 
     @Override public void createMessage(String text, Long id_user, Long id_post){
 

@@ -16,7 +16,11 @@ import java.util.Map;
 public class UserInfoServiceImpl implements UserInfoService{
     @Autowired
 
-    private UserInfoRepository repository;
+    private final UserInfoRepository repository;
+
+    public UserInfoServiceImpl(UserInfoRepository uir){
+        this.repository = uir;
+    }
 
     @Override public Map<String, Status> displayTextInfo(Long id){
         

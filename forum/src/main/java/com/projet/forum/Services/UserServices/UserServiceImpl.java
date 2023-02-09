@@ -18,6 +18,10 @@ public class UserServiceImpl implements UserService{
 
     private UserRepository repository;
 
+    public UserServiceImpl(UserRepository ur){
+        this.repository = ur;
+    }
+
     @Override public UserEntity createUser(String mail, String password, String login){
         
         UserEntity newUser = new UserEntity();

@@ -1,6 +1,6 @@
 package com.projet.forum.Entities;
 
-import java.util.List;
+import java.util.LinkedList;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,5 +32,5 @@ public class ChannelEntity extends BaseEntity{
     private Category category;
 
     @OneToMany(mappedBy = "channel")
-    private List<PostEntity> posts;
+    private LinkedList<PostEntity> posts;
 }

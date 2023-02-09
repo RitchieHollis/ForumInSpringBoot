@@ -1,6 +1,8 @@
 package com.projet.forum.Exceptions.UserExceptions;
 
-public class InexistantUserException extends RuntimeException{
+import java.util.NoSuchElementException;
+
+public class InexistantUserException extends NoSuchElementException{
     
     private String message;
 
