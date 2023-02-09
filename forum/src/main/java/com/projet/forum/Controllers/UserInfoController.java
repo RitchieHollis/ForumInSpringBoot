@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projet.forum.dtos.userInfos.UserInfoStateDto;
+
 @RestController()
 @RequestMapping("/users_info")
 public class UserInfoController {
@@ -26,16 +28,15 @@ public class UserInfoController {
 
     public UserInfoController(UserServiceImpl ser, UserInfoServiceImpl u_ser){ this.service = ser; this.info_service = u_ser; }
 
-    @GetMapping()
-    public String showListOfUsers(Model model){
+    @GetMapping("/users_list")
+    @ResponseBody
+    public List<UserInfoStateDto> showStatesOfUsers(){
 
         List<UserEntity> listUsers = service.findAllUsers();
-        List<Map<Map<String,Status>, byte[]>> listInfo = new ArrayList<>();
-
-        for(UserEntity u : listUsers){
-            listInfo.add(info_service.displayInfo(u.getId()));
-        }
-        model.addAttribute("userInfo", listInfo);
-        return "/users_list";
+        
+        return listUsers.stream().map(it -> new UserInfoStateDto(
+            it.getUser_info().getLogin(),
+            it.getUser_info().getStatus(),
+            it.getUser_info().getProfile_picture())).toList();
     }
 }
