@@ -1,5 +1,6 @@
 package com.projet.forum.Controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +40,11 @@ public class UserInfoController {
             it.getUser_info().getProfile_picture())).toList();
     }
 
-    @GetMapping("/userProfile/{id}")
+    @GetMapping("/userProfile")
     @ResponseBody
-    public UserInfoProfileDto showProfileOfUser(@PathVariable Long id){
+    public ResponseEntity<UserInfoProfileDto> showProfileOfUser(@RequestParam Long id){
 
-        UserEntity user = service.findUserById(id);
+        UserEntity user = service.findUserById(id).orElseThrow();
         int nbreMessages = service.findTotalMessagesOfUser(id);
         UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),
                                       user.getUser_info().getProfile_picture(),
@@ -51,7 +52,7 @@ public class UserInfoController {
                                       user.getUser_info().getBio(),
                                       user.getUser_info().getAge(), 
                                       user.getUser_info().getBadges(),
-                                      nbreMessages);
-        return dto;
+                                      (int)nbreMessages);
+        return ResponseEntity.ok(dto);
     }
 }
