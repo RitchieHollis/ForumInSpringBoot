@@ -69,6 +69,8 @@ public class UserServiceImpl implements UserService{
     }
     @Override public UserEntity saveUser(UserEntity user){
 
+        UserInfoEntity user_info = i_repository.findById(user.getUser_info().getId()).orElseThrow();
+        i_repository.save(user_info);
         return repository.save(user);
     }
     @Override public List<UserEntity> findAllUsers(){
