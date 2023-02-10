@@ -26,7 +26,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         this.u_repository = ur;
     }
 
-    @Override public Map<String, Status> displayTextInfo(Long id){
+   /*  @Override public Map<String, Status> displayTextInfo(Long id){
         
         UserEntity user = u_repository.findById(id).orElseThrow();
 
@@ -81,5 +81,5 @@ public class UserInfoServiceImpl implements UserInfoService{
         }
 
         return null;
-    }
+    }*/
 }

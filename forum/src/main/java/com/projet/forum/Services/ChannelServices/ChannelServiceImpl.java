@@ -1,5 +1,9 @@
 package com.projet.forum.Services.ChannelServices;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,7 @@ import com.projet.forum.Repositories.MessageRepository;
 import com.projet.forum.Repositories.PostRepository;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Exceptions.*;
+import com.projet.forum.Exceptions.ChannelExceptions.ChannelNotFoundException;
 import com.projet.forum.Exceptions.UserExceptions.InexistantUserException;
 
 @Service
@@ -45,6 +50,7 @@ public class ChannelServiceImpl implements ChannelService{
             ChannelEntity channel = new ChannelEntity();
             channel.setTitle(text);
             channel.setCategory(category);
+            channel.setCreated_at(LocalDateTime.now());
             repository.save(channel);
         }
     }
@@ -64,6 +70,19 @@ public class ChannelServiceImpl implements ChannelService{
         }
     }
 
+    @Override public List<ChannelEntity> showAllChannelsOfCategory(Category category){
+
+        for(Category c : Category.values()){
+
+            if(category.name().equals(c.name())){
+
+                List<ChannelEntity> channels = repository.showAllChannelsInCategory(category);
+                return channels;
+            }
+        }
+        return null;
+    }
+
     @Override public void addPost(Long id, Long id_user, String title, String text){
 
         if(u_repository.findById(id_user).isEmpty())
@@ -72,14 +91,49 @@ public class ChannelServiceImpl implements ChannelService{
         PostEntity post = new PostEntity();
         MessageEntity message = new MessageEntity();
 
-        post.setChannel(repository.findById(id).get());
+        ChannelEntity c = repository.findById(id).get();
+
+        post.setChannel(c);
         post.setTitle(title);
         post.setNb_views(0L);
+        post.setCreated_at(LocalDateTime.now());
         p_repository.save(post);
 
         message.setUser_author(u_repository.findById(id_user).get());
         message.setContent(text);
         message.setPost(post);
+        message.setCreated_at(LocalDateTime.now());
         m_repository.save(message);
+
+        c.setModified_at(LocalDateTime.now());
+        repository.saveAndFlush(c);
+    }
+
+    @Override public List<PostEntity> showAllPosts(Long id){
+
+        if(repository.findById(id).isPresent())
+            return p_repository.findAllPosts(id);
+        else throw new ChannelNotFoundException("Channel not found");
+    }
+
+    @Override public int showNumberOfPosts(Long id){
+
+        ChannelEntity channel = repository.findById(id).orElseThrow();
+
+        if(channel.isArchived()) throw new ChannelNotFoundException("Channel not found");
+
+        List<PostEntity> posts_list = p_repository.findAllPosts(id);
+        if(posts_list.isEmpty())
+            return 0;
+        else return posts_list.size();
+    }
+
+    @Override public PostEntity showLatestPostOfChannel(Long id){
+        
+        ChannelEntity channel = repository.findById(id).orElseThrow();
+
+        if(channel.isArchived()) throw new ChannelNotFoundException("Channel not found");
+
+        return p_repository.findLatestPostOfChannel(channel.getId());
     }
 }

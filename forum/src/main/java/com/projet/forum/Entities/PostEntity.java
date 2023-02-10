@@ -33,6 +33,9 @@ public class PostEntity extends BaseEntity{
     @Column
     private Long nb_views;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean archived;
+
     @OneToMany(mappedBy = "post")
     private List<MessageEntity> messages;
 

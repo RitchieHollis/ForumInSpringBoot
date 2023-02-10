@@ -31,6 +31,9 @@ public class ChannelEntity extends BaseEntity{
     @Column
     private Category category;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean archived;
+
     @OneToMany(mappedBy = "channel")
     private LinkedList<PostEntity> posts;
 }
