@@ -36,6 +36,9 @@ public class UserEntity extends BaseEntity{
     @Column
     private Role role;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean archived;
+
     @OneToOne
     private UserInfoEntity user_info;
 

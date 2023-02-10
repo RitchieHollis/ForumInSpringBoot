@@ -28,22 +28,32 @@ public class UserInfoServiceImpl implements UserInfoService{
 
     @Override public Map<String, Status> displayTextInfo(Long id){
         
-        UserEntity user = u_repository.findById(id).orElse(null);
+        UserEntity user = u_repository.findById(id).orElseThrow();
 
-        if(user != null){
+        if(user.isArchived()){
+            Map<String, Status> user_text = new HashMap<>();
+            user_text.put("Deleted user", null);
+            return user_text;
+        }
+        else{
 
             Map<String, Status> user_text = new HashMap<>();
             user_text.put(user.getUser_info().getLogin(), user.getUser_info().getStatus());
             return user_text;
         }
-        else return null;
     }
 
     @Override public Map<Map<String, Status>, byte[]> displayInfo(Long id){
 
-        UserEntity user = u_repository.findById(id).orElse(null);
+        UserEntity user = u_repository.findById(id).orElseThrow();
 
-        if(user != null){
+        if(user.isArchived()){
+            Map<Map<String, Status>, byte[]> a_user_display = new HashMap<>() {{
+                put(displayTextInfo(id), null);
+            }};
+            return a_user_display;
+        }
+        else{
 
              Map<Map<String, Status>, byte[]> user_display = new HashMap<>() {{
                 put(displayTextInfo(id), user.getUser_info().getProfile_picture());
@@ -51,7 +61,6 @@ public class UserInfoServiceImpl implements UserInfoService{
 
             return user_display;
         }
-        else return null;
     }
 
     @Override public List<?> showInfoOnProfileChart(Long id){

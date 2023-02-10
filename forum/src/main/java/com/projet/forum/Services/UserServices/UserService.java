@@ -10,8 +10,8 @@ public interface UserService {
     public abstract UserEntity createUser(String mail, String password, String login);
 
     public abstract void connect(String mail, String password, String login);
-
-    public abstract void deleteUser(Long id);
+    
+    public abstract void archiviseUser(Long id);
 
     public abstract UserEntity saveUser(UserEntity user);
 

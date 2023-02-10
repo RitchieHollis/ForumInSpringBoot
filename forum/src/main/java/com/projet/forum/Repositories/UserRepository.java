@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
     List<LocalDate> showAccountCreationDate(@Param(value = "id") Long id);
 
     Optional<UserEntity> findByMail(String mail);
+
+    @Query("SELECT u FROM UserEntity u WHERE u.archived = 'f'")
+    List<UserEntity> findAllLegalUsers();
 }

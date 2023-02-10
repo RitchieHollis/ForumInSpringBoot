@@ -51,11 +51,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/delete", method = RequestMethod.GET)
     @ResponseBody
-    public String deleteAccount(@PathVariable("id") Long id){
+    public String deleteAccount(@RequestParam(name = "id") Long id){
 
-        service.deleteUser(id);
+        service.archiviseUser(id);
         return "deleted";
     }
 }

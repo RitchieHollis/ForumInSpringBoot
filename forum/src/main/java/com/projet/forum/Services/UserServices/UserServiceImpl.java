@@ -2,6 +2,7 @@ package com.projet.forum.Services.UserServices;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -10,10 +11,9 @@ import org.springframework.stereotype.Service;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
+import com.projet.forum.Entities.BaseEntity;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.UserInfoEntity;
-import com.projet.forum.Exceptions.UserExceptions.UserAlreadyExistException;
-import com.projet.forum.Exceptions.UserExceptions.InexistantUserException;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Exceptions.UserExceptions.*;
@@ -39,9 +39,11 @@ public class UserServiceImpl implements UserService{
         newUser.setMail(mail);
         newUser.setPassword(password);
         newUser.setRole(Role.USER);
+        newUser.setCreated_at(LocalDateTime.now());
 
         UserInfoEntity userInfo = new UserInfoEntity();
         userInfo.setLogin(login);
+        userInfo.setCreated_at(LocalDateTime.now());
         userInfo.setStatus(Status.OFFLINE); //for testing, auto value to implement in service/controller
         newUser.setUser_info(userInfo);
         
@@ -58,13 +60,15 @@ public class UserServiceImpl implements UserService{
         
         
     }
-    @Override public void deleteUser(Long id){
+    @Override public void archiviseUser(Long id){
 
         if(repository.findById(id) == null)
             throw new InexistantUserException("This user doesn't exist");
         else{
-            i_repository.deleteById(repository.findById(id).get().getUser_info().getId());
-            repository.deleteById(id);
+            UserEntity u = repository.findById(id).get();
+            u.setArchived(true);
+            u.setModified_at(LocalDateTime.now());
+            repository.saveAndFlush(u);
         }
     }
     @Override public UserEntity saveUser(UserEntity user){
@@ -75,9 +79,12 @@ public class UserServiceImpl implements UserService{
     }
     @Override public List<UserEntity> findAllUsers(){
 
-        return repository.findAll();
+        return repository.findAllLegalUsers();
     }
     @Override public Optional<UserEntity> findUserById(Long id){
+
+        if(repository.findById(id).get().isArchived())
+            throw new UserArchivisedException("User is unavailbe");
 
         return repository.findById(id);
 
@@ -86,12 +93,11 @@ public class UserServiceImpl implements UserService{
 
         UserEntity user = repository.findById(id).orElseThrow();
 
-        if(user != null){
-            List<MessageEntity> listMessages = m_repository.findAllMessagesOfUser(id);
-            if(listMessages.isEmpty())
-                return 0;
-            else return listMessages.size();
-        }
-        else throw new InexistantUserException("User not found");
+        if(user.isArchived()) throw new UserArchivisedException("User not found");
+
+        List<MessageEntity> listMessages = m_repository.findAllMessagesOfUser(id);
+        if(listMessages.isEmpty())
+            return 0;
+        else return listMessages.size();
     }
 }
