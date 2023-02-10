@@ -3,6 +3,7 @@ import com.projet.forum.Entities.Status;
 import com.projet.forum.Entities.Badge;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 public record UserInfoProfileDto(
 
@@ -13,4 +14,8 @@ public record UserInfoProfileDto(
     Date age,
     List<Badge> badges,
     int numberMessages
-){}
+){
+    public UserInfoProfileDto{
+        Objects.requireNonNullElse(numberMessages, 0);
+    }
+}

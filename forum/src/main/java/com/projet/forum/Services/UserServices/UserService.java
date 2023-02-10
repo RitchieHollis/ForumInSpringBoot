@@ -17,7 +17,7 @@ public interface UserService {
 
     public abstract List<UserEntity> findAllUsers();
 
-    public abstract UserEntity findUserById(Long id);
+    public abstract Optional<UserEntity> findUserById(Long id);
 
     public abstract int findTotalMessagesOfUser(Long id);
 }

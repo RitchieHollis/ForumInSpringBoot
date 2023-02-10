@@ -75,13 +75,10 @@ public class UserServiceImpl implements UserService{
 
         return repository.findAll();
     }
-    @Override public UserEntity findUserById(Long id){
+    @Override public Optional<UserEntity> findUserById(Long id){
 
-        UserEntity user = repository.findById(id).orElseThrow();
+        return repository.findById(id);
 
-        if(user != null)
-            return user;
-        else throw new InexistantUserException("User not found");
     }
     @Override public int findTotalMessagesOfUser(Long id){
 

@@ -20,6 +20,6 @@ public interface MessageRepository extends JpaRepository<MessageEntity,Long>{
     @Query("SELECT u.modified_at FROM MessageEntity u WHERE u.id = :id")
     LocalDate displayModifiedAt(@Param(value = "id") Long id);
 
-    @Query("SELECT u FROM MessageEntity u WHERE u.user_author = :id")
+    @Query(value = "SELECT u FROM MessageEntity u JOIN u.user_author a WHERE a.id = :id")
     List<MessageEntity> findAllMessagesOfUser(@Param("id") Long id);
 }
