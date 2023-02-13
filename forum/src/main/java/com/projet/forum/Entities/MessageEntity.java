@@ -34,4 +34,7 @@ public class MessageEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private PostEntity post;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean archived;
 }

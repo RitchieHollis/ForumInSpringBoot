@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
-import com.projet.forum.Entities.BaseEntity;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.UserInfoEntity;
 import com.projet.forum.Repositories.UserRepository;

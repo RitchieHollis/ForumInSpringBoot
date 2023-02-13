@@ -4,15 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Repositories.UserRepository;
-import com.projet.forum.Entities.UserInfoEntity;
-import com.projet.forum.Entities.Status;
-import com.projet.forum.Entities.UserEntity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService{

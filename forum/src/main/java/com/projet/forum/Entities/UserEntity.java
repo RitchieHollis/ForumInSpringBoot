@@ -2,7 +2,6 @@ package com.projet.forum.Entities;
 
 import java.util.List;
 
-import org.aspectj.weaver.ast.Instanceof;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
