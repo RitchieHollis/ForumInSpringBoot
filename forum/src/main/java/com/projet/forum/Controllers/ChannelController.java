@@ -32,14 +32,23 @@ public class ChannelController {
     private final PostService p_service;
 
     public ChannelController(ChannelService cs, PostService ps){ this.service = cs; this.p_service = ps;}
-/* 
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<ListedChannelDto>> showChannels(@RequestParam(name= "cat") Category c){
 
         List<ChannelEntity> channels = service.showAllChannelsOfCategory(c);
 
-        return channels.stream().map(it -> new ListedChannelDto( //showLatestPost in PostService must be done first
-            it.getTitle(), service.showNumberOfPosts(it.getId()), new LatestPostDto(p_service., null, null)))
-    }*/
+        return ResponseEntity.ok(channels.stream().map(
+
+            it -> new ListedChannelDto( 
+
+                it.getTitle(), service.showNumberOfPosts(it.getId()), new LatestPostDto(
+
+                    service.showLatestPostOfChannel(it.getId()).getTitle(), 
+                    p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId()).
+                        getUser_author().getUser_info().getLogin(), 
+                    service.showLatestPostOfChannel(it.getId()).getModified_at()))).toList()
+                );
+    }
 }

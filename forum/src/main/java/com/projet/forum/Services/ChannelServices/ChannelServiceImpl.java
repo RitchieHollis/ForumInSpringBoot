@@ -97,12 +97,14 @@ public class ChannelServiceImpl implements ChannelService{
         post.setTitle(title);
         post.setNb_views(0L);
         post.setCreated_at(LocalDateTime.now());
+        post.setModified_at(post.getCreated_at());
         p_repository.save(post);
 
         message.setUser_author(u_repository.findById(id_user).get());
         message.setContent(text);
         message.setPost(post);
         message.setCreated_at(LocalDateTime.now());
+        message.setModified_at(message.getCreated_at());
         m_repository.save(message);
 
         c.setModified_at(LocalDateTime.now());

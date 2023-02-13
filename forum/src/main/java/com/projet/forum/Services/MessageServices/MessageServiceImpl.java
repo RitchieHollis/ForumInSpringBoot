@@ -1,5 +1,7 @@
 package com.projet.forum.Services.MessageServices;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.projet.forum.Entities.*;
@@ -30,6 +32,8 @@ public class MessageServiceImpl implements MessageService{
         message.setPost(post);
         message.setUser_author(user);
         message.setContent(text);
+        message.setCreated_at(LocalDateTime.now());
+        message.setModified_at(message.getCreated_at());
 
         repository.save(message);
     }

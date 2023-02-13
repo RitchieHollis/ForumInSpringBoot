@@ -40,10 +40,12 @@ public class UserServiceImpl implements UserService{
         newUser.setPassword(password);
         newUser.setRole(Role.USER);
         newUser.setCreated_at(LocalDateTime.now());
+        newUser.setModified_at(newUser.getCreated_at());
 
         UserInfoEntity userInfo = new UserInfoEntity();
         userInfo.setLogin(login);
         userInfo.setCreated_at(LocalDateTime.now());
+        userInfo.setModified_at(userInfo.getCreated_at());
         userInfo.setStatus(Status.OFFLINE); //for testing, auto value to implement in service/controller
         newUser.setUser_info(userInfo);
         
