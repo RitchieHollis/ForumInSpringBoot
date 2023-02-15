@@ -23,9 +23,9 @@ public interface PostRepository extends JpaRepository<PostEntity,Long>{
     @Query("SELECT u.posts FROM PostEntity JOIN u.channel WHERE a.id = :id AND u.archived = 'f'")
     List<PostEntity> findAllPosts(@Param("id") Long id);
 
-    @Query("SELECT u FROM PostEntity u WHERE u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u AND u.archived = 'f'")
+    @Query("SELECT u FROM PostEntity u WHERE u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND (u.archived = 'f')")
     PostEntity findLatestPost();
 
-    @Query("SELECT u FROM PostEntity u JOIN u.channel WHERE a.id = :id AND u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND u.archived = 'f'")
+    @Query("SELECT u FROM PostEntity JOIN u.channel WHERE a.id = :id AND (u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND (u.archived = 'f'))")
     PostEntity findLatestPostOfChannel(@Param("id") Long id);
 }
