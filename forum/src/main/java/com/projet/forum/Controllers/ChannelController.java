@@ -3,6 +3,7 @@ package com.projet.forum.Controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +43,15 @@ public class ChannelController {
                         getUser_author().getUser_info().getLogin(), 
                     service.showLatestPostOfChannel(it.getId()).getModified_at()))).toList()
                 );
+    }
+
+    @PostMapping("/createChannel")
+    public ResponseEntity<ChannelEntity> createChannel(
+        @RequestParam(name= "cat") Category c,
+        @RequestParam(name = "id") Long id,
+        @RequestParam(name="title") String text){
+
+        ChannelEntity channel = service.createChannel(id, text, c);
+        return ResponseEntity.ok(channel);
     }
 }

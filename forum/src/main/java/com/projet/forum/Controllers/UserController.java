@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
@@ -49,5 +50,11 @@ public class UserController {
 
         service.archiviseUser(id);
         return "deleted";
+    }
+
+    @PostMapping("giveAdmin")
+    public void setAdmin(@RequestParam(name = "id") Long id, @RequestParam(name = "id_set") Long id2){
+        
+        service.giveAdminPermission(id, id2);
     }
 }

@@ -15,17 +15,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PostRepository extends JpaRepository<PostEntity,Long>{
     
     @Query("SELECT u messages FROM PostEntity u")
-    public List<MessageEntity> findAllMessages(Long id);
+    public List<MessageEntity> findAllMessages();
 
     @Query("SELECT u.created_at, u.modified_at FROM PostEntity u WHERE u.id = :id")
     List<LocalDate> displayTimeInfo(@Param("id") Long id);
 
-    @Query("SELECT u.posts FROM PostEntity JOIN u.channel WHERE a.id = :id AND u.archived = 'f'")
+    // @Query("SELECT u.posts FROM PostEntity JOIN u.channel WHERE a.id = :id AND u.archived = 'f'")
+
+    @Query("SELECT p FROM PostEntity p WHERE p.channel.id = :id AND NOT(p.archived)")
     List<PostEntity> findAllPosts(@Param("id") Long id);
 
-    @Query("SELECT u FROM PostEntity u WHERE u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND (u.archived = 'f')")
+    @Query("SELECT u FROM PostEntity u WHERE u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND NOT(u.archived)")
     PostEntity findLatestPost();
 
-    @Query("SELECT u FROM PostEntity JOIN u.channel WHERE a.id = :id AND (u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND (u.archived = 'f'))")
+    @Query("SELECT u FROM PostEntity u INNER JOIN ChannelEntity a ON a.id = :id WHERE u.modified_at = (SELECT MAX(u.modified_at) FROM PostEntity u) AND NOT(u.archived)")
     PostEntity findLatestPostOfChannel(@Param("id") Long id);
 }

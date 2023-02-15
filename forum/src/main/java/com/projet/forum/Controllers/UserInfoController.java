@@ -48,7 +48,8 @@ public class UserInfoController {
                                       user.getUser_info().getBio(),
                                       user.getUser_info().getAge(), 
                                       user.getUser_info().getBadges(),
-                                      (int)nbreMessages);
+                                      (int)nbreMessages,
+                                      user.getRole());
         return ResponseEntity.ok(dto);
     }
 }

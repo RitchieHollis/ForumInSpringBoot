@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChannelService {
 
-    public abstract void createChannel(Long id_user, String text, Category c);
+    public abstract ChannelEntity createChannel(Long id_user, String text, Category c);
 
     public abstract void archiviseChannel(Long id, Long id_user);
 

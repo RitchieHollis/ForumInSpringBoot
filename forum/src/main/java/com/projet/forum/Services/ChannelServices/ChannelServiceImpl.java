@@ -37,12 +37,12 @@ public class ChannelServiceImpl implements ChannelService{
         this.m_repository = mr;
     }
 
-    @Override public void createChannel(Long id_user, String text, Category category){
+    @Override public ChannelEntity createChannel(Long id_user, String text, Category category){
 
         if(u_repository.findById(id_user).isEmpty())
             throw new InexistantUserException("User not found");
 
-        if(u_repository.findById(id_user).get().getRole() != Role.ADMIN)
+        if(!(u_repository.findById(id_user).get().getRole().equals(Role.ADMIN)))
             throw new UserNotAllowedException("You don't have a specific role to execute this action");
         else{
 
@@ -51,6 +51,7 @@ public class ChannelServiceImpl implements ChannelService{
             channel.setCategory(category);
             channel.setCreated_at(LocalDateTime.now());
             repository.save(channel);
+            return channel;
         }
     }
 
@@ -65,7 +66,14 @@ public class ChannelServiceImpl implements ChannelService{
             throw new UserNotAllowedException("You don't have a specific role to execute this action");
         else{
 
-            repository.delete(channel);
+            for(PostEntity p : channel.getPosts()){
+
+                p.setArchived(true);
+                p_repository.saveAndFlush(p);
+            }
+
+            channel.setArchived(true);
+            repository.save(channel);
         }
     }
 

@@ -23,7 +23,7 @@ public class MessageServiceImpl implements MessageService{
         this.p_repository = pr;
     }
 
-    @Override public void createMessage(String text, Long id_user, Long id_post){
+    /*@Override public void createMessage(String text, Long id_user, Long id_post){
 
         UserEntity user = u_repository.findById(id_user).get();
         PostEntity post = p_repository.findById(id_post).get();
@@ -36,7 +36,7 @@ public class MessageServiceImpl implements MessageService{
         message.setModified_at(message.getCreated_at());
 
         repository.save(message);
-    }
+    }*/
 
     @Override public void modifyMessage(Long id, String text){
 

@@ -20,4 +20,6 @@ public interface UserService {
     public abstract Optional<UserEntity> findUserById(Long id);
 
     public abstract int findTotalMessagesOfUser(Long id);
+
+    public abstract void giveAdminPermission(Long id, Long id2);
 }
