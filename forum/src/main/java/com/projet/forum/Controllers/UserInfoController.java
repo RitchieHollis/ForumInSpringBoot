@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.projet.forum.Services.UserServices.*;
 import com.projet.forum.Services.UserInfoServices.*;
+import com.projet.forum.Services.MessageServices.*;
 import com.projet.forum.Dtos.UserInfoDtos.UserInfoProfileDto;
 import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
+import com.projet.forum.Dtos.MessageDtos.ListedMessageDto;
 import com.projet.forum.Entities.UserEntity;
+import com.projet.forum.Entities.MessageEntity;
 
 import java.util.List;
 
@@ -21,8 +24,12 @@ public class UserInfoController {
     
     private final UserServiceImpl service;
     private final UserInfoServiceImpl info_service;
+    private final MessageServiceImpl m_service;
 
-    public UserInfoController(UserServiceImpl ser, UserInfoServiceImpl u_ser){ this.service = ser; this.info_service = u_ser; }
+    public UserInfoController(UserServiceImpl ser, UserInfoServiceImpl u_ser, MessageServiceImpl m_ser) {
+        
+        this.service = ser; this.info_service = u_ser; this.m_service = m_ser; 
+    }
 
     @GetMapping("/users_list")
     @ResponseBody
@@ -33,7 +40,8 @@ public class UserInfoController {
         return listUsers.stream().map(it -> new UserInfoStateDto(
             it.getUser_info().getLogin(),
             it.getUser_info().getStatus(),
-            it.getUser_info().getProfile_picture())).toList();
+            it.getUser_info().getProfile_picture(),
+            it.getUser_info().getBadges().get(it.getUser_info().getBadges().size()-1))).toList(); //last badge obtained
     }
 
     @GetMapping("/userProfile")
@@ -42,6 +50,17 @@ public class UserInfoController {
 
         UserEntity user = service.findUserById(id).orElseThrow();
         int nbreMessages = service.findTotalMessagesOfUser(id);
+
+        List<MessageEntity> messages = service.findAllMessagesOfUser(id);
+
+        List<ListedMessageDto> m = messages.stream().map(message -> new ListedMessageDto(
+            message.getPost().getTitle(),
+            message.getPost().getChannel().getTitle(),
+            message.getContent(),
+            message.getCreated_at(),
+            message.getPost().getMessages().size()-1
+        )).toList();
+
         UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),
                                       user.getUser_info().getProfile_picture(),
                                       user.getUser_info().getStatus(),
@@ -49,7 +68,8 @@ public class UserInfoController {
                                       user.getUser_info().getAge(), 
                                       user.getUser_info().getBadges(),
                                       (int)nbreMessages,
-                                      user.getRole());
+                                      user.getRole(),
+                                      m);
         return ResponseEntity.ok(dto);
     }
 }

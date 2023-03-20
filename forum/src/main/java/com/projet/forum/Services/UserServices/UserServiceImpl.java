@@ -13,6 +13,7 @@ import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.UserInfoEntity;
+import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Exceptions.UserNotAllowedException;
@@ -101,6 +102,15 @@ public class UserServiceImpl implements UserService{
         if(listMessages.isEmpty())
             return 0;
         else return listMessages.size();
+    }
+    @Override public List<MessageEntity> findAllMessagesOfUser(Long id){
+
+        UserEntity user = repository.findById(id).orElseThrow();
+
+        if(user.isArchived()) throw new UserArchivisedException("User not found");
+
+        List<MessageEntity> listMessages = m_repository.findAllMessagesOfUser(id);
+        return listMessages;
     }
     @Override public void giveAdminPermission(Long id, Long id_setUser){
         

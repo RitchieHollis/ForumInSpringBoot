@@ -3,6 +3,7 @@ package com.projet.forum.Services.UserServices;
 import java.util.List;
 import java.util.Optional;
 
+import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.UserEntity;
 
 public interface UserService {
@@ -20,6 +21,8 @@ public interface UserService {
     public abstract Optional<UserEntity> findUserById(Long id);
 
     public abstract int findTotalMessagesOfUser(Long id);
+
+    public abstract List<MessageEntity> findAllMessagesOfUser(Long id);
 
     public abstract void giveAdminPermission(Long id, Long id2);
 }
