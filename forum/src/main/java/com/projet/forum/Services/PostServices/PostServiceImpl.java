@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.PostEntity;
 import com.projet.forum.Entities.UserEntity;
+import com.projet.forum.Entities.ChannelEntity;
 import com.projet.forum.Repositories.PostRepository;
 import com.projet.forum.Repositories.MessageRepository;
+import com.projet.forum.Repositories.UserRepository;
+import com.projet.forum.Repositories.ChannelRepository;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -17,10 +20,14 @@ public class PostServiceImpl implements PostService{
 
     private final PostRepository repository; 
     private final MessageRepository m_repository;
+    private final UserRepository u_repository;
+    private final ChannelRepository c_repository;
 
-    public PostServiceImpl(PostRepository pr, MessageRepository mr){
+    public PostServiceImpl(PostRepository pr, MessageRepository mr, UserRepository ur, ChannelRepository cr){
         this.repository = pr;
         this.m_repository = mr;
+        this.u_repository = ur;
+        this.c_repository = cr;
     }
 
     @Override public MessageEntity showLatestMessage(Long id){
@@ -69,5 +76,21 @@ public class PostServiceImpl implements PostService{
 
         m_repository.saveAndFlush(message);
         repository.save(post);
+    }
+
+    @Override public PostEntity createPost(Long user_id, Long channel_id, String title, String content){
+
+        UserEntity user = u_repository.findById(user_id).orElseThrow();
+        ChannelEntity channel = c_repository.findById(channel_id).orElseThrow();
+
+        PostEntity post = new PostEntity();
+        post.setCreated_at(LocalDateTime.now());
+        post.setModified_at(post.getCreated_at());
+        post.setChannel(channel);
+        post.setTitle(title);
+        this.addMessage(post.getId(), user, content);
+
+        repository.saveAndFlush(post);
+        return post;
     }
 }
