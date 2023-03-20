@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 import com.projet.forum.Dtos.UserDtos.UserConnectionDto;
 import com.projet.forum.Entities.UserEntity;
-import com.projet.forum.Repositories.UserRepository;
+//import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Services.UserServices.UserServiceImpl;
 
 @RestController()
@@ -22,7 +22,7 @@ public class UserController {
     
     private final UserServiceImpl service;
 
-    public UserController(UserRepository repo, UserServiceImpl ser){
+    public UserController(/*UserRepository repo,*/ UserServiceImpl ser){
 
         this.service = ser;
     }

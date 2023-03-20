@@ -58,7 +58,7 @@ public class UserInfoController {
             message.getPost().getChannel().getTitle(),
             message.getContent(),
             message.getCreated_at(),
-            message.getPost().getMessages().size()-1
+            message.getPost().getMessages().size()
         )).toList();
 
         UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),

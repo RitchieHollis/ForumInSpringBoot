@@ -1,6 +1,7 @@
 package com.projet.forum.Dtos.MessageDtos;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public record ListedMessageDto(
 
@@ -10,4 +11,8 @@ public record ListedMessageDto(
     LocalDateTime created_at,
     int numberMessagesInPost
 )
-{}
+{
+    public ListedMessageDto{
+        Objects.requireNonNullElse(numberMessagesInPost, 0);
+    }
+}
