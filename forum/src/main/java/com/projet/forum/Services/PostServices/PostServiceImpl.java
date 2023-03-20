@@ -14,6 +14,8 @@ import com.projet.forum.Repositories.MessageRepository;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Repositories.ChannelRepository;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService{
     @Autowired
@@ -46,6 +48,12 @@ public class PostServiceImpl implements PostService{
             }
         }
         return null;
+    }
+
+    @Override public List<MessageEntity> showAllMessages(Long id){
+
+        List<MessageEntity> messages = repository.findAllMessages();
+        return messages;
     }
 
     @Override public void archivisePost(Long id){

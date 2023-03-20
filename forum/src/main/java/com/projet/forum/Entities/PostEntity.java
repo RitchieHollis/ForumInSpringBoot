@@ -31,7 +31,7 @@ public class PostEntity extends BaseEntity{
     private String title;
 
     @Column
-    private Long nb_views;
+    private Integer nb_views;
 
     @Column(columnDefinition = "boolean default false")
     private boolean archived;

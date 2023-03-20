@@ -4,9 +4,13 @@ import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.PostEntity;
 
+import java.util.List;
+
 public interface PostService {
     
     public abstract MessageEntity showLatestMessage(Long id);
+
+    public abstract List<MessageEntity> showAllMessages(Long id);
 
     public abstract void archivisePost(Long id);
 

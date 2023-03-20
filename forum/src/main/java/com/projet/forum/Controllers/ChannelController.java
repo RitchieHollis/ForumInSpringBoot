@@ -3,6 +3,7 @@ package com.projet.forum.Controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projet.forum.Services.ChannelServices.*;
 import com.projet.forum.Services.PostServices.PostService;
 import com.projet.forum.Entities.ChannelEntity;
+import com.projet.forum.Entities.PostEntity;
 import com.projet.forum.Entities.Category;
 import com.projet.forum.Dtos.ChannelDtos.*;
-import com.projet.forum.Dtos.PostDtos.LatestPostDto;
+import com.projet.forum.Dtos.PostDtos.*;
 
 @RestController()
 @RequestMapping("/channels")
@@ -53,5 +55,22 @@ public class ChannelController {
 
         ChannelEntity channel = service.createChannel(id, text, c);
         return ResponseEntity.ok(channel);
+    }
+    @GetMapping("/posts")
+    public ResponseEntity<List<ListedPostDto>> showListOfPosts(@RequestParam(name="channel") Long cId) {
+
+        List<PostEntity> posts = service.showAllPosts(cId);
+
+        return ResponseEntity.ok(posts.stream().map(
+            post -> new ListedPostDto(
+                post.getTitle(), 
+                post.getMessages().get(0).getUser_author().getUser_info().getLogin(),
+                post.getCreated_at(),
+                post.getMessages().size(),
+                post.getNb_views(),
+                post.getMessages().get(post.getMessages().size()-1).getUser_author().getUser_info().getLogin(),
+                post.getModified_at()
+            )
+        ).toList());
     }
 }
