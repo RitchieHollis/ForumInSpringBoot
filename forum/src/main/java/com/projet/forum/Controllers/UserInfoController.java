@@ -40,8 +40,7 @@ public class UserInfoController {
         return listUsers.stream().map(it -> new UserInfoStateDto(
             it.getUser_info().getLogin(),
             it.getUser_info().getStatus(),
-            it.getUser_info().getProfile_picture(),
-            it.getUser_info().getBadges().get(it.getUser_info().getBadges().size()-1))).toList(); //last badge obtained
+            it.getUser_info().getProfile_picture())).toList(); //last badge obtained
     }
 
     @GetMapping("/userProfile")

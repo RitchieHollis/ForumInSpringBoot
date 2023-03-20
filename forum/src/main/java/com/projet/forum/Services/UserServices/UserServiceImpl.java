@@ -117,8 +117,11 @@ public class UserServiceImpl implements UserService{
         UserEntity user = repository.findById(id).orElseThrow();
         UserEntity user2 = repository.findById(id_setUser).orElseThrow();
 
-        if(user.getRole().equals(Role.ADMIN))
+        if(user.getRole().equals(Role.ADMIN)){
+
             user2.setRole(Role.ADMIN);
+            repository.saveAndFlush(user2);
+        }
             
         else throw new UserNotAllowedException("You don't have a specific role to execute this task");
     }

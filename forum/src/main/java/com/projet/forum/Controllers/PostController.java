@@ -10,10 +10,8 @@ import com.projet.forum.Services.PostServices.*;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.PostEntity;
 import com.projet.forum.Dtos.MessageDtos.*;
-import com.projet.forum.Dtos.UserInfoDtos.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController()
 @RequestMapping("/post")
