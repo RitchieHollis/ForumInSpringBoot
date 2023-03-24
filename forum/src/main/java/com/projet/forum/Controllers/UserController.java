@@ -44,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "/delete", method = RequestMethod.GET)
+    @RequestMapping(path = "/admin/delete", method = RequestMethod.GET)
     @ResponseBody
     public String deleteAccount(@RequestParam(name = "id") Long id){
 
@@ -52,7 +52,7 @@ public class UserController {
         return "deleted";
     }
 
-    @PostMapping("giveAdmin")
+    @PostMapping("/admin/giveAdmin")
     public void setAdmin(@RequestParam(name = "id") Long id, @RequestParam(name = "id_set") Long id2){
         
         service.giveAdminPermission(id, id2);

@@ -1,6 +1,7 @@
 package com.projet.forum.Controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,7 @@ public class UserInfoController {
         this.service = ser; this.info_service = u_ser; this.m_service = m_ser; 
     }
 
+    @Secured(value = {"ROLE_ADMIN"})
     @GetMapping("/users_list")
     @ResponseBody
     public List<UserInfoStateDto> showStatesOfUsers(){
