@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,7 +63,21 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(registry -> {
+        http.cors().and().csrf().disable()
+            .authorizeHttpRequests(registry -> {
+                registry
+                        .requestMatchers("/login/admin").authenticated()
+                        .requestMatchers("/login").permitAll();
+                        try{
+                            registry.anyRequest().authenticated().and().sessionManagement(
+                                sm -> sm.sessionCreationPolicy(
+                                    SessionCreationPolicy.STATELESS
+                                )
+                            );
+                        } catch (Exception e) { throw new RuntimeException(e); }
+            });
+
+       /* http.authorizeHttpRequests(registry -> {
             registry.requestMatchers("/message/*").authenticated()
                     .requestMatchers("/channels/*").anonymous()
                     .requestMatchers("posts/**").anonymous()
@@ -71,7 +86,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/**").permitAll();
         });
 
-        http.formLogin().defaultSuccessUrl("/channels?cat=GENERAL").and().logout();
+        http.formLogin().defaultSuccessUrl("/channels?cat=GENERAL").and().logout();*/
 
         return http.build();
     }
