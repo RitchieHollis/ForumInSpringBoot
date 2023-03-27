@@ -16,6 +16,7 @@ import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
 import com.projet.forum.Dtos.MessageDtos.ListedMessageDto;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.MessageEntity;
+import com.projet.forum.Entities.Role;
 
 import java.util.List;
 
