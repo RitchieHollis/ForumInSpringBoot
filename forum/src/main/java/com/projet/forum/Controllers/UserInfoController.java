@@ -33,7 +33,7 @@ public class UserInfoController {
         this.service = ser; this.info_service = u_ser; this.m_service = m_ser; 
     }
 
-    @Secured(value = {"ROLE_ADMIN"})
+    @Secured(Role.InCode.ADMIN)
     @GetMapping("/users_list")
     @ResponseBody
     public List<UserInfoStateDto> showStatesOfUsers(){

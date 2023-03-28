@@ -12,6 +12,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.projet.forum.Entities.UserEntity;
+import com.projet.forum.Services.UserInfoServices.UserInfoService;
+import com.projet.forum.Services.UserServices.UserService;
 import com.projet.forum.Utils.JwtHelper;
 
 import jakarta.servlet.FilterChain;
@@ -26,15 +29,20 @@ public class JwtFilter extends OncePerRequestFilter {
     
     private final JwtHelper jwtHelper;
 
-    private final UserDetailsService detailsService;
+    private final UserService detailsService;
 
     @Autowired
-    public JwtFilter(JwtHelper h, UserDetailsService s){ this.jwtHelper = h; this.detailsService = s; }
+    public JwtFilter(JwtHelper h, UserService s){ this.jwtHelper = h; this.detailsService = s; }
 
     @Override protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, java.io.IOException {
 
-        Optional<String> requestTokenHandler = Optional.of(request.getHeader("Authorization"));
+        // if (request.getHeader("Authorization") == null){
+        //      filterChain.doFilter(request, response); 
+        //      return;    
+        // }
+
+        Optional<String> requestTokenHandler = Optional.ofNullable(request.getHeader("Authorization"));
         //AtomicReference<Optional<String>> optUsername = new AtomicReference<>(Optional.empty());
         //atomic reference needed ^ for not taking an in-between state
 
@@ -46,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                 optUsername.ifPresent(username -> {
                                     if(SecurityContextHolder.getContext().getAuthentication() == null){
 
-                                        UserDetails userDetails = detailsService.loadUserByUsername(username);
+                                        UserEntity userDetails = detailsService.findUserByUsername(username).get();
                                         if(jwtHelper.IsTokenValid(token, userDetails)){
 
                                             UsernamePasswordAuthenticationToken auth = new
@@ -61,6 +69,6 @@ public class JwtFilter extends OncePerRequestFilter {
                                 });
                             });
     
-        filterChain.doFilter(request, response);                                                             
+        filterChain.doFilter(request, response); 
     }
 }

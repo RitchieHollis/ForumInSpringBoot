@@ -1,11 +1,19 @@
 package com.projet.forum.Services.UserServices;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.util.Optionals;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.projet.forum.Entities.MessageEntity;
@@ -21,7 +29,7 @@ import com.projet.forum.Exceptions.UserExceptions.*;
 import com.projet.forum.Repositories.MessageRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
 
     private UserRepository repository;
@@ -92,6 +100,13 @@ public class UserServiceImpl implements UserService{
         return repository.findById(id);
 
     }
+    @Override public Optional<UserEntity> findUserByUsername(String username){
+
+        if(repository.findByUsername(username).get().isArchived())
+            throw new UserArchivisedException("User is unavailbe");
+            
+        return repository.findByUsername(username);
+    }
     @Override public int findTotalMessagesOfUser(Long id){
 
         UserEntity user = repository.findById(id).orElseThrow();
@@ -125,4 +140,15 @@ public class UserServiceImpl implements UserService{
             
         else throw new UserNotAllowedException("You don't have a specific role to execute this task");
     }
+    /* 
+    private Set<GrantedAuthority> getAuthorities(Set<Role> roles) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
+    }*/
+    
 }

@@ -1,5 +1,6 @@
 package com.projet.forum.Configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,12 +16,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.projet.forum.Configuration.Filters.JwtFilter;
+
+import jakarta.servlet.Filter;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration {
+
+    @Autowired
+    private final JwtFilter filter;
+
+    public SecurityConfiguration(JwtFilter filter) {
+        this.filter = filter;
+    }
     
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -63,6 +76,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
 
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
             .authorizeHttpRequests(registry -> {
                 registry

@@ -11,4 +11,6 @@ public interface UserInfoService {
   //  public abstract List<?> showInfoOnProfileChart(Long id); //this or simply get functions separately
 
    // public abstract Map<String, Status> displayTextInfo(Long id);
+
+   
 }

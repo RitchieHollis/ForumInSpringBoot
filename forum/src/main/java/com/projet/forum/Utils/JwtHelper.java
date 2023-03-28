@@ -7,10 +7,10 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.projet.forum.Configuration.JwtConfiguration;
+import com.projet.forum.Entities.UserEntity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -61,14 +61,14 @@ public class JwtHelper {
         return parser.parseClaimsJws(token).getBody();
     }
 
-    public boolean IsTokenValid(String token, UserDetails userDetails){
+    public boolean IsTokenValid(String token, UserEntity userDetails){
 
         String tokenUsername = getUsernameFromToken(token);
 
         return tokenUsername.equals(userDetails.getUsername()) && !isExpire(token);
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserEntity userDetails){
 
         Map<String, Object> claims = new HashMap<>();
 
