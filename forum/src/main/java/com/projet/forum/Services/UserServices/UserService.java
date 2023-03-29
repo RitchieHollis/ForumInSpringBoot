@@ -27,4 +27,6 @@ public interface UserService {
     public abstract List<MessageEntity> findAllMessagesOfUser(Long id);
 
     public abstract void giveAdminPermission(Long id, Long id2);
+
+    public abstract void giveAdminPermission(Long id); //test
 }

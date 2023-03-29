@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.crypto.spec.RC2ParameterSpec;
+
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +142,13 @@ public class UserServiceImpl implements UserService {
         }
             
         else throw new UserNotAllowedException("You don't have a specific role to execute this task");
+    }
+    @Override public void giveAdminPermission(Long id){
+
+        UserEntity user = repository.findById(id).orElseThrow();
+
+        user.setRole(Role.ADMIN);
+        repository.saveAndFlush(user);
     }
     /* 
     private Set<GrantedAuthority> getAuthorities(Set<Role> roles) {

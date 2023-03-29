@@ -2,6 +2,7 @@ package com.projet.forum.Controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 import com.projet.forum.Dtos.UserDtos.UserConnectionDto;
+import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.UserEntity;
 //import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Services.UserServices.UserServiceImpl;
@@ -49,7 +51,7 @@ public class UserController {
     public String deleteAccount(@RequestParam(name = "id") Long id){
 
         service.archiviseUser(id);
-        return "deleted";
+        return "User deleted";
     }
 
     @PostMapping("/admin/giveAdmin")
@@ -57,4 +59,10 @@ public class UserController {
         
         service.giveAdminPermission(id, id2);
     }
+
+   /* @PostMapping("/giveAdminTest")
+    public void setAdminTest(@RequestParam(name = "id") Long id){
+        
+        service.giveAdminPermission(id);
+    }*/
 }
