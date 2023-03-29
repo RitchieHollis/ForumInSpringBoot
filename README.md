@@ -6,5 +6,5 @@ TODO:
 
   - Finish Services
   - Finish Dtos
-  - Delete ftlh files
   - Change tested RESTControllers & add new
+  - Add security: authorization & refresh token
