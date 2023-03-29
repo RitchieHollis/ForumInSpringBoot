@@ -16,7 +16,7 @@ import com.projet.forum.Entities.UserEntity;
 //import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Services.UserServices.UserServiceImpl;
 
-@RestController()
+@RestController
 @RequestMapping("/sign_up")
 public class UserController {
     

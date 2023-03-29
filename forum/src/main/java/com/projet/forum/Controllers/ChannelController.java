@@ -19,7 +19,7 @@ import com.projet.forum.Entities.Category;
 import com.projet.forum.Dtos.ChannelDtos.*;
 import com.projet.forum.Dtos.PostDtos.*;
 
-@RestController()
+@RestController
 @RequestMapping("/channels")
 public class ChannelController {
     

@@ -79,9 +79,10 @@ public class SecurityConfiguration {
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
             .authorizeHttpRequests(registry -> {
-                registry
-                        .requestMatchers("/login/admin").authenticated()
-                        .requestMatchers("/login").permitAll();
+                registry.requestMatchers("/login").permitAll()
+                        .requestMatchers("/users_info/*").permitAll()
+                        .requestMatchers("/sign_up/**").permitAll()
+                        .requestMatchers("/login/admin").authenticated();
                         try{
                             registry.anyRequest().authenticated().and().sessionManagement(
                                 sm -> sm.sessionCreationPolicy(

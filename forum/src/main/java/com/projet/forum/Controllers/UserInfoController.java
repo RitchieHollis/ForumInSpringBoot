@@ -20,7 +20,7 @@ import com.projet.forum.Entities.Role;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/users_info")
 public class UserInfoController {
     

@@ -13,7 +13,7 @@ import com.projet.forum.Dtos.MessageDtos.*;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/post")
 public class PostController {
     

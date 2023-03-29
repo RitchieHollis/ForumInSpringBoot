@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         UserEntity newUser = new UserEntity();
         newUser.setMail(mail);
         newUser.setPassword(password);
-        newUser.setRole(Role.USER);
+        newUser.setRole(Role.USER.USER);
         newUser.setCreated_at(LocalDateTime.now());
         newUser.setModified_at(newUser.getCreated_at());
 
