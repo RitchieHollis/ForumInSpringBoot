@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.projet.forum.Entities.MessageEntity;
@@ -35,20 +36,23 @@ import com.projet.forum.Repositories.MessageRepository;
 public class UserServiceImpl implements UserService {
     @Autowired
 
-    private UserRepository repository;
-    private UserInfoRepository i_repository;
+    private final UserRepository repository;
+    private final UserInfoRepository i_repository;
     private final MessageRepository m_repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository ur, UserInfoRepository uir, MessageRepository mr){
+    public UserServiceImpl(UserRepository ur, UserInfoRepository uir, MessageRepository mr, PasswordEncoder passwordEncoder){
         this.repository = ur;
         this.i_repository = uir;
         this.m_repository = mr;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override public UserEntity createUser(String mail, String password, String login){
         
         UserEntity newUser = new UserEntity();
         newUser.setMail(mail);
+        password = passwordEncoder.encode(password);
         newUser.setPassword(password);
         newUser.setRole(Role.USER.USER);
         newUser.setCreated_at(LocalDateTime.now());

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
-import com.projet.forum.Dtos.UserDtos.UserConnectionDto;
+import com.projet.forum.Dtos.UserDtos.UserCreationDto;
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.UserEntity;
 //import com.projet.forum.Repositories.UserRepository;
@@ -30,17 +30,17 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserConnectionDto> getCredentials
+    public ResponseEntity<UserCreationDto> getCredentials
     (@RequestParam(name="mail") String mail, @RequestParam(name="password") String password, @RequestParam(name="login") String login){
 
-        UserConnectionDto user_credentials = new UserConnectionDto(mail, password, login);
+        UserCreationDto user_credentials = new UserCreationDto(mail, password, login);
         return ResponseEntity.ok(user_credentials);
     }
 
     @RequestMapping(path = "/create_account", method = RequestMethod.POST,
     consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserEntity> createAccount(@Valid @RequestBody UserConnectionDto newUser){ //add authentification
+    public ResponseEntity<UserEntity> createAccount(@Valid @RequestBody UserCreationDto newUser){ //add authentification
 
         UserEntity user = service.createUser(newUser.mail(),newUser.password(),newUser.login());
         return ResponseEntity.ok(user);
@@ -60,9 +60,10 @@ public class UserController {
         service.giveAdminPermission(id, id2);
     }
 
-   /* @PostMapping("/giveAdminTest")
+    @PostMapping("/giveAdminTest")
+    @ResponseBody
     public void setAdminTest(@RequestParam(name = "id") Long id){
         
         service.giveAdminPermission(id);
-    }*/
+    }
 }

@@ -50,6 +50,7 @@ public class ChannelServiceImpl implements ChannelService{
             channel.setTitle(text);
             channel.setCategory(category);
             channel.setCreated_at(LocalDateTime.now());
+            channel.setPosts(null);
             repository.save(channel);
             return channel;
         }
@@ -132,7 +133,7 @@ public class ChannelServiceImpl implements ChannelService{
         if(channel.isArchived()) throw new ChannelNotFoundException("Channel not found");
 
         List<PostEntity> posts_list = p_repository.findAllPosts(id);
-        if(posts_list.isEmpty())
+        if(posts_list.isEmpty() || posts_list == null)
             return 0;
         else return posts_list.size();
     }
@@ -142,6 +143,7 @@ public class ChannelServiceImpl implements ChannelService{
         ChannelEntity channel = repository.findById(id).orElseThrow();
 
         if(channel.isArchived()) throw new ChannelNotFoundException("Channel not found");
+        if(channel.getPosts() == null || channel.getPosts().isEmpty()) return null;
 
         return p_repository.findLatestPostOfChannel(channel.getId());
     }

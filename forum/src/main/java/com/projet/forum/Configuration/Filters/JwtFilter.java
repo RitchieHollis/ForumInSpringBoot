@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.projet.forum.Entities.UserEntity;
+import com.projet.forum.Services.UserDetailsServiceImpl;
 import com.projet.forum.Services.UserInfoServices.UserInfoService;
 import com.projet.forum.Services.UserServices.UserService;
+import com.projet.forum.Services.UserServices.UserServiceImpl;
 import com.projet.forum.Utils.JwtHelper;
 
 import jakarta.servlet.FilterChain;
@@ -29,10 +31,11 @@ public class JwtFilter extends OncePerRequestFilter {
     
     private final JwtHelper jwtHelper;
 
-    private final UserService detailsService;
+    //private final UserDetailsService detailsService;
+    private final UserDetailsServiceImpl detailsService;
 
     @Autowired
-    public JwtFilter(JwtHelper h, UserService s){ this.jwtHelper = h; this.detailsService = s; }
+    public JwtFilter(JwtHelper h, UserDetailsServiceImpl s){ this.jwtHelper = h; this.detailsService = s; }
 
     @Override protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, java.io.IOException {
@@ -48,14 +51,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //Bearer efzqrgqrsgsqrgfzqelfnzqlenfluzqief (Bearer type of token, exclude)
         requestTokenHandler.filter(it -> it.startsWith("Bearer"))
-                            .map(it -> it.substring(0, 7)) 
+                            .map(it -> it.substring(7)) 
                             .ifPresent(token -> {
                                 Optional<String> optUsername = Optional.of(jwtHelper.getUsernameFromToken(token));
                                 optUsername.ifPresent(username -> {
                                     if(SecurityContextHolder.getContext().getAuthentication() == null){
 
-                                        UserEntity userDetails = detailsService.findUserByUsername(username).get();
-                                        if(jwtHelper.IsTokenValid(token, userDetails)){
+                                        UserDetails userDetails = detailsService.loadUserByUsername(username);
+                                        if(jwtHelper.IsTokenValid(token, (UserEntity) userDetails)){
 
                                             UsernamePasswordAuthenticationToken auth = new
                                             UsernamePasswordAuthenticationToken(userDetails, 

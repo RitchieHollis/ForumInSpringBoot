@@ -76,15 +76,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
 
-        http.formLogin().defaultSuccessUrl("/channels?cat=GENERAL").and().logout();
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
-            .authorizeHttpRequests(registry -> {
-                registry.requestMatchers("/channels").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        //.requestMatchers("/users_info/*").permitAll()
-                        .requestMatchers("/sign_up/**").permitAll()
+             .authorizeHttpRequests(registry -> {
+                registry.requestMatchers("/channels/*").permitAll()
+                    .requestMatchers("/channels").permitAll()
+                        //.requestMatchers("/login").permitAll()
+                        .requestMatchers("/sign_up/*").permitAll()
                         .requestMatchers("/users_info/*").permitAll()
+                        .requestMatchers("/login").anonymous()
+                        .requestMatchers("/testAuth").authenticated()
+                        .requestMatchers("posts/createPost").authenticated()
                         .requestMatchers("/admin/**").authenticated();
                         try{
                             registry.anyRequest().authenticated().and().sessionManagement(

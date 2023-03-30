@@ -82,7 +82,7 @@ public class UserEntity extends BaseEntity implements UserDetails{
     @Override public String getUsername() {
 
         //throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
-
+        
         return this.getUser_info().getLogin();
     }
 

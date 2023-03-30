@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
     @Query("SELECT u FROM UserEntity u WHERE u.archived = 'f'")
     List<UserEntity> findAllLegalUsers();
 
-    @Query(value = "SELECT u.user_info.login FROM UserEntity u WHERE u.user_info.login = :login_user AND NOT(u.archived)")
+    @Query(value = "SELECT u FROM UserEntity u WHERE u.user_info.login = :login_user AND NOT(u.archived)")
     Optional<UserEntity> findByUsername(@Param(value = "login_user") String login_user);
 }

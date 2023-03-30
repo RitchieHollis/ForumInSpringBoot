@@ -46,7 +46,9 @@ public class JwtHelper {
 
         Date expirationDate = getExpirationDateFromToken(token);
 
-        return expirationDate.after(new Date());
+        System.out.println(expirationDate);
+
+        return !expirationDate.after(new Date());
     }
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimResolver){
@@ -64,6 +66,8 @@ public class JwtHelper {
     public boolean IsTokenValid(String token, UserEntity userDetails){
 
         String tokenUsername = getUsernameFromToken(token);
+
+        System.out.println(userDetails.getUsername());
 
         return tokenUsername.equals(userDetails.getUsername()) && !isExpire(token);
     }
