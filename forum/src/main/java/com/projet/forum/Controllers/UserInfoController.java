@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.projet.forum.Services.UserServices.*;
 import com.projet.forum.Services.UserInfoServices.*;
 import com.projet.forum.Services.MessageServices.*;
+import com.projet.forum.Services.PostServices.*;
 import com.projet.forum.Dtos.UserInfoDtos.UserInfoProfileDto;
 import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
 import com.projet.forum.Dtos.MessageDtos.ListedMessageDto;
@@ -27,10 +28,11 @@ public class UserInfoController {
     private final UserServiceImpl service;
     private final UserInfoServiceImpl info_service;
     private final MessageServiceImpl m_service;
+    private final PostServiceImpl p_service;
 
-    public UserInfoController(UserServiceImpl ser, UserInfoServiceImpl u_ser, MessageServiceImpl m_ser) {
+    public UserInfoController(UserServiceImpl ser, UserInfoServiceImpl u_ser, MessageServiceImpl m_ser, PostServiceImpl p_ser) {
         
-        this.service = ser; this.info_service = u_ser; this.m_service = m_ser; 
+        this.service = ser; this.info_service = u_ser; this.m_service = m_ser; this.p_service = p_ser;
     }
 
     //@Secured(Role.InCode.ADMIN)
@@ -61,7 +63,7 @@ public class UserInfoController {
             message.getPost().getChannel().getTitle(),
             message.getContent(),
             message.getCreated_at(),
-            message.getPost().getMessages().size()
+            p_service.showAllMessages(message.getPost().getId()).size()
         )).toList();
 
         UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),

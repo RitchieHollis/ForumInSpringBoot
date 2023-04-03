@@ -14,7 +14,7 @@ public interface PostService {
 
     public abstract void archivisePost(Long id);
 
-    public abstract void addMessage(Long id, UserEntity user,String content);
+    public abstract void addFirstMessage(PostEntity post, UserEntity user,String content);
 
-    public abstract PostEntity createPost(Long id_user, Long id_channel, String title, String text);
+    public abstract PostEntity createPost(String username, Long id_channel, String title, String text);
 }

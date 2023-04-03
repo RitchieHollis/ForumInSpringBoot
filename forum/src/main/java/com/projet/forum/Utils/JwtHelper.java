@@ -46,7 +46,7 @@ public class JwtHelper {
 
         Date expirationDate = getExpirationDateFromToken(token);
 
-        System.out.println(expirationDate);
+        //System.out.println(expirationDate);
 
         return !expirationDate.after(new Date());
     }
@@ -67,7 +67,7 @@ public class JwtHelper {
 
         String tokenUsername = getUsernameFromToken(token);
 
-        System.out.println(userDetails.getUsername());
+        //System.out.println(userDetails.getUsername());
 
         return tokenUsername.equals(userDetails.getUsername()) && !isExpire(token);
     }

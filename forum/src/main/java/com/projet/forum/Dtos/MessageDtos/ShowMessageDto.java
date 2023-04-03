@@ -8,7 +8,7 @@ public record ShowMessageDto(
     String userLogin,
     LocalDateTime created_at,
     LocalDateTime modified_at,
-    String citation,
+    //String citation,
     String content
 
 ) 
@@ -16,6 +16,6 @@ public record ShowMessageDto(
     public ShowMessageDto{
 
         Objects.requireNonNullElse(modified_at, null);
-        Objects.requireNonNullElse(citation, null);
+        //Objects.requireNonNullElse(citation, null);
     }
 }

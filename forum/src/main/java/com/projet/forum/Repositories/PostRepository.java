@@ -14,8 +14,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity,Long>{
     
-    @Query("SELECT u messages FROM PostEntity u WHERE NOT(u.archived)")
-    public List<MessageEntity> findAllMessages();
+    //@Query("SELECT u messages FROM PostEntity u WHERE NOT(u.archived)")
+    //public List<MessageEntity> findAllMessages();
 
     @Query("SELECT u.created_at, u.modified_at FROM PostEntity u WHERE u.id = :id")
     List<LocalDate> displayTimeInfo(@Param("id") Long id);

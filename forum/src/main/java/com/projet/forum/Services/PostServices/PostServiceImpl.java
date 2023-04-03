@@ -35,15 +35,16 @@ public class PostServiceImpl implements PostService{
     @Override public MessageEntity showLatestMessage(Long id){
 
         PostEntity post = repository.findById(id).orElseThrow();
+        List<MessageEntity> messages = m_repository.findAllMessagesByPostId(id);
 
-        int i = post.getMessages().size()-1;
+        int i = messages.size()-1;
         while(i >= 0){
 
-            if(post.getMessages().get(i).isArchived())
+            if(messages.get(i).isArchived())
                 i--;
             else {
 
-                MessageEntity latestMessage = post.getMessages().get(i);
+                MessageEntity latestMessage = messages.get(i);
                 return latestMessage;
             }
         }
@@ -52,7 +53,7 @@ public class PostServiceImpl implements PostService{
 
     @Override public List<MessageEntity> showAllMessages(Long id){
 
-        List<MessageEntity> messages = repository.findAllMessages();
+        List<MessageEntity> messages = m_repository.findAllMessagesByPostId(id);
         return messages;
     }
 
@@ -61,7 +62,9 @@ public class PostServiceImpl implements PostService{
         PostEntity post = repository.findById(id).orElseThrow();
         post.setArchived(true);
 
-        for(MessageEntity m : post.getMessages()){
+        List<MessageEntity> messages = m_repository.findAllMessagesByPostId(id);
+
+        for(MessageEntity m : messages){
 
             m.setArchived(true);
             m.setModified_at(LocalDateTime.now());
@@ -70,10 +73,8 @@ public class PostServiceImpl implements PostService{
         post.setModified_at(LocalDateTime.now());
         repository.save(post);
     }
-
-    @Override public void addMessage(Long id, UserEntity user, String content){
-
-        PostEntity post = repository.findById(id).orElseThrow();
+ 
+    @Override public void addFirstMessage(PostEntity post, UserEntity user, String content){
 
         MessageEntity message = new MessageEntity();
         message.setCreated_at(LocalDateTime.now());
@@ -86,19 +87,27 @@ public class PostServiceImpl implements PostService{
         repository.save(post);
     }
 
-    @Override public PostEntity createPost(Long user_id, Long channel_id, String title, String content){
+    @Override public PostEntity createPost(String username, Long channel_id, String title, String content){
 
-        UserEntity user = u_repository.findById(user_id).orElseThrow();
+        UserEntity user = u_repository.findByUsername(username).orElseThrow();
         ChannelEntity channel = c_repository.findById(channel_id).orElseThrow();
 
-        PostEntity post = new PostEntity();
-        post.setCreated_at(LocalDateTime.now());
-        post.setModified_at(post.getCreated_at());
-        post.setChannel(channel);
-        post.setTitle(title);
-        this.addMessage(post.getId(), user, content);
+        if(user != null && channel != null){
 
-        repository.saveAndFlush(post);
-        return post;
+            PostEntity post = new PostEntity();
+            post.setCreated_at(LocalDateTime.now());
+            post.setModified_at(post.getCreated_at());
+            post.setChannel(channel);
+            post.setTitle(title);
+            post.setNb_views(0);
+            repository.save(post);
+
+            addFirstMessage(post, user, content);
+
+            c_repository.saveAndFlush(channel);
+            repository.saveAndFlush(post);
+            return post;
+        }
+        else return null;
     }
 }

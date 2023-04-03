@@ -37,12 +37,12 @@ public class ChannelServiceImpl implements ChannelService{
         this.m_repository = mr;
     }
 
-    @Override public ChannelEntity createChannel(Long id_user, String text, Category category){
+    @Override public ChannelEntity createChannel(String login, String text, Category category){
 
-        if(u_repository.findById(id_user).isEmpty())
+        if(u_repository.findByUsername(login).isEmpty())
             throw new InexistantUserException("User not found");
 
-        if(!(u_repository.findById(id_user).get().getRole().equals(Role.ADMIN)))
+        if(!(u_repository.findByUsername(login)).get().getRole().equals(Role.ADMIN))
             throw new UserNotAllowedException("You don't have a specific role to execute this action");
         else{
 
@@ -50,7 +50,6 @@ public class ChannelServiceImpl implements ChannelService{
             channel.setTitle(text);
             channel.setCategory(category);
             channel.setCreated_at(LocalDateTime.now());
-            channel.setPosts(null);
             repository.save(channel);
             return channel;
         }
@@ -67,7 +66,8 @@ public class ChannelServiceImpl implements ChannelService{
             throw new UserNotAllowedException("You don't have a specific role to execute this action");
         else{
 
-            for(PostEntity p : channel.getPosts()){
+            List<PostEntity> posts = p_repository.findAllPosts(id);
+            for(PostEntity p : posts){
 
                 p.setArchived(true);
                 p_repository.saveAndFlush(p);
@@ -142,8 +142,9 @@ public class ChannelServiceImpl implements ChannelService{
         
         ChannelEntity channel = repository.findById(id).orElseThrow();
 
+        List<PostEntity> posts = p_repository.findAllPosts(id);
         if(channel.isArchived()) throw new ChannelNotFoundException("Channel not found");
-        if(channel.getPosts() == null || channel.getPosts().isEmpty()) return null;
+        if(posts == null || posts.isEmpty()) return null;
 
         return p_repository.findLatestPostOfChannel(channel.getId());
     }

@@ -1,5 +1,6 @@
 package com.projet.forum.Controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -50,25 +51,26 @@ public class ChannelController {
     @PostMapping("/createChannel")
     public ResponseEntity<ChannelEntity> createChannel(
         @RequestParam(name= "cat") Category c,
-        @RequestParam(name = "id") Long id,
-        @RequestParam(name="title") String text){
+        @RequestParam(name="title") String text,
+        Principal principal){
 
-        ChannelEntity channel = service.createChannel(id, text, c);
+        ChannelEntity channel = service.createChannel(principal.getName(), text, c);
         return ResponseEntity.ok(channel);
     }
     @GetMapping("/posts")
     public ResponseEntity<List<ListedPostDto>> showListOfPosts(@RequestParam(name="channel") Long cId) {
 
         List<PostEntity> posts = service.showAllPosts(cId);
-
+        System.out.println(posts.get(0).getTitle());
         return ResponseEntity.ok(posts.stream().map(
             post -> new ListedPostDto(
                 post.getTitle(), 
-                post.getMessages().get(0).getUser_author().getUser_info().getLogin(),
+                p_service.showAllMessages(post.getId()).get(0).getUser_author().getUser_info().getLogin(),
                 post.getCreated_at(),
-                post.getMessages().size(),
+                p_service.showAllMessages(post.getId()).size(),
                 post.getNb_views(),
-                post.getMessages().get(post.getMessages().size()-1).getUser_author().getUser_info().getLogin(),
+                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getUser_author().getUser_info().getLogin(),
+                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getContent(),
                 post.getModified_at()
             )
         ).toList());

@@ -10,6 +10,7 @@ public record ListedPostDto(
     int numberMessages,
     int numberOfViews,
     String last_user_login,
+    String last_message_content,
     LocalDateTime modified_at
 )
 {}

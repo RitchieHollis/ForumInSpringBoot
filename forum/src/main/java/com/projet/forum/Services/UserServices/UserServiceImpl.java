@@ -1,22 +1,12 @@
 package com.projet.forum.Services.UserServices;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
-import javax.crypto.spec.RC2ParameterSpec;
 
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.util.Optionals;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +15,6 @@ import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
 import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Entities.UserInfoEntity;
-import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Exceptions.UserNotAllowedException;

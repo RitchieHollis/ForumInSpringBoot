@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 import com.projet.forum.Dtos.UserDtos.UserCreationDto;
-import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.UserEntity;
 //import com.projet.forum.Repositories.UserRepository;
 import com.projet.forum.Services.UserServices.UserServiceImpl;

@@ -21,4 +21,7 @@ public interface MessageRepository extends JpaRepository<MessageEntity,Long>{
 
     @Query(value = "SELECT u FROM MessageEntity u JOIN u.user_author a WHERE a.id = :id AND u.archived = 'f'")
     List<MessageEntity> findAllMessagesOfUser(@Param("id") Long id);
+
+    @Query(value = "SELECT u FROM MessageEntity u WHERE u.post.id = :id AND u.archived = 'f'")
+    List<MessageEntity> findAllMessagesByPostId(@Param("id") Long id);
 }

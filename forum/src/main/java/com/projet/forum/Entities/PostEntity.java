@@ -35,10 +35,10 @@ public class PostEntity extends BaseEntity{
 
     @Column(columnDefinition = "boolean default false")
     private boolean archived;
-
+/* 
     @OneToMany(mappedBy = "post")
     private List<MessageEntity> messages;
-
+*/
     @ManyToOne
     @JoinColumn(name = "channel_id", nullable = false)
     private ChannelEntity channel;
