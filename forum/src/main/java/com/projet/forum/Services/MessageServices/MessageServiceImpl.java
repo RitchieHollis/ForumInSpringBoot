@@ -23,9 +23,9 @@ public class MessageServiceImpl implements MessageService{
         this.p_repository = pr;
     }
 
-    @Override public void createMessage(String text, Long id_user, Long id_post){
+    @Override public void createMessage(String text, String username, Long id_post){
 
-        UserEntity user = u_repository.findById(id_user).get();
+        UserEntity user = u_repository.findByUsername(username).get();
         PostEntity post = p_repository.findById(id_post).get();
         
         MessageEntity message = new MessageEntity();
@@ -38,22 +38,24 @@ public class MessageServiceImpl implements MessageService{
         repository.save(message);
     }
 
-    @Override public void modifyMessage(Long uId, Long id, String text){
+    @Override public void modifyMessage(String username, Long id, String text){
 
-        UserEntity user = u_repository.findById(uId).orElseThrow();
+        UserEntity user = u_repository.findByUsername(username).orElseThrow();
         MessageEntity message = repository.findById(id).orElseThrow();
 
-        if(user.getId().equals(message.getUser_author().getId()) || user.getRole().equals(Role.ADMIN)){
+        if(user.getId().equals(message.getUser_author().getId())){
             
-            if(!(message.getContent().equals(text)))
+            if(!(message.getContent().equals(text))){
                 message.setContent(text);
+                repository.saveAndFlush(message);
+            }
             else throw new EqualMessageException("You can't change message to the same text");
         }
     }
 
-    @Override public void deleteMessage(Long uId, Long id){
+    @Override public void deleteMessage(String username, Long id){
 
-        UserEntity user = u_repository.findById(uId).orElseThrow();
+        UserEntity user = u_repository.findByUsername(username).orElseThrow();
         MessageEntity message = repository.findById(id).orElseThrow();
 
         if(user.getId().equals(message.getUser_author().getId()) || user.getRole().equals(Role.ADMIN))
