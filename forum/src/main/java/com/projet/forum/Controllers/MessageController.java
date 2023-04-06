@@ -37,4 +37,11 @@ public class MessageController {
         service.modifyMessage(principal.getName(), id, modifyMessageForm.content());
         return ResponseEntity.ok(id);
     }
+
+    @PatchMapping()
+    public ResponseEntity<String> deleteMessage(@RequestParam(value="id") Long id, Principal principal){
+
+        service.deleteMessage(principal.getName(), id);
+        return ResponseEntity.ok("Message deleted");
+    }
 }
