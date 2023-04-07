@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,22 @@ import com.projet.forum.Dtos.PostDtos.*;
 
 @RestController
 @RequestMapping("/channels")
+@CrossOrigin("http://localhost:4200")
 public class ChannelController {
     
     private final ChannelService service;
     private final PostService p_service;
 
     public ChannelController(ChannelService cs, PostService ps){ this.service = cs; this.p_service = ps;}
+
+    @GetMapping("/name")
+    @ResponseBody
+    public ResponseEntity<ChannelNameDto> showNameOfChannelById(@RequestParam(name= "id") Long id){
+
+        ChannelEntity channel = service.getChannelById(id);
+        ChannelNameDto dto = new ChannelNameDto(channel.getTitle());
+        return ResponseEntity.ok(dto);
+    } 
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -39,12 +50,15 @@ public class ChannelController {
 
             it -> new ListedChannelDto( 
 
-                it.getTitle(), service.showNumberOfPosts(it.getId()), new LatestPostDto(
-
-                    service.showLatestPostOfChannel(it.getId()).getTitle(), 
+                it.getId(), it.getTitle(), service.showNumberOfPosts(it.getId()), new LatestPostDto(
+                    service.showLatestPostOfChannel(it.getId()).getId(),
+                    service.showLatestPostOfChannel(it.getId()).getTitle(),
                     p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId()).
                         getUser_author().getUser_info().getLogin(), 
-                    service.showLatestPostOfChannel(it.getId()).getModified_at()))).toList()
+                    p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId()).
+                    getUser_author().getId(),
+                    service.showLatestPostOfChannel(it.getId()).getModified_at())
+                    ,it.getCategory().toString())).toList()
                 );
     }
 
@@ -64,12 +78,15 @@ public class ChannelController {
         System.out.println(posts.get(0).getTitle());
         return ResponseEntity.ok(posts.stream().map(
             post -> new ListedPostDto(
+                post.getId(),
                 post.getTitle(), 
                 p_service.showAllMessages(post.getId()).get(0).getUser_author().getUser_info().getLogin(),
+                p_service.showAllMessages(post.getId()).get(0).getUser_author().getId(),
                 post.getCreated_at(),
                 p_service.showAllMessages(post.getId()).size(),
                 post.getNb_views(),
                 p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getUser_author().getUser_info().getLogin(),
+                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getUser_author().getId(),
                 p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getContent(),
                 post.getModified_at()
             )

@@ -43,6 +43,7 @@ public class UserInfoController {
         List<UserEntity> listUsers = service.findAllUsers();
         
         return listUsers.stream().map(it -> new UserInfoStateDto(
+            it.getId(),
             it.getUser_info().getLogin(),
             it.getUser_info().getStatus(),
             it.getUser_info().getProfile_picture(),
@@ -59,6 +60,7 @@ public class UserInfoController {
         List<MessageEntity> messages = service.findAllMessagesOfUser(id);
 
         List<ListedMessageDto> m = messages.stream().map(message -> new ListedMessageDto(
+            message.getId(),
             message.getPost().getTitle(),
             message.getPost().getChannel().getTitle(),
             message.getContent(),
@@ -66,7 +68,8 @@ public class UserInfoController {
             p_service.showAllMessages(message.getPost().getId()).size()
         )).toList();
 
-        UserInfoProfileDto dto = new UserInfoProfileDto(user.getUser_info().getLogin(),
+        UserInfoProfileDto dto = new UserInfoProfileDto(user.getId(),
+                                      user.getUser_info().getLogin(),
                                       user.getUser_info().getProfile_picture(),
                                       user.getUser_info().getStatus(),
                                       user.getUser_info().getBio(),

@@ -4,7 +4,9 @@ import com.projet.forum.Dtos.PostDtos.LatestPostDto;
 
 public record ListedChannelDto(
 
+    Long id,
     String title,
     int numberPosts,
-    LatestPostDto latestPost
+    LatestPostDto latestPost,
+    String category
 ) {}

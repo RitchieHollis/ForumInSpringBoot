@@ -12,6 +12,8 @@ public interface ChannelService {
 
     public abstract void archiviseChannel(Long id, Long id_user);
 
+    public abstract ChannelEntity getChannelById(Long id);
+
     public abstract List<ChannelEntity> showAllChannelsOfCategory(Category category);
 
     public abstract void addPost(Long id, Long id_user, String title, String text);

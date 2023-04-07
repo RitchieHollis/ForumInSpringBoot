@@ -5,6 +5,7 @@ import com.projet.forum.Entities.Status;
 
 public record UserInfoStateDto(
     
+    Long id,
     String login,
     Status status,
     byte[] img,

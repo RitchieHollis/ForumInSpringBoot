@@ -7,6 +7,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { ChannelComponent } from './pages/channel/channel.component';
 import { NavigationComponent } from './core/navigation/navigation.component';
 import { ChannelItemComponent } from './pages/channel-item/channel-item.component';
+import { ChannelService } from './pages/channel/service/channel.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './pages/user/user.component';
+import { PostComponent } from './pages/post/post.component';
 
 @NgModule({
   declarations: [
@@ -14,13 +18,19 @@ import { ChannelItemComponent } from './pages/channel-item/channel-item.componen
     LoginComponent,
     ChannelComponent,
     NavigationComponent,
-    ChannelItemComponent
+    ChannelItemComponent,
+    UserComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ChannelService,
+    ChannelItemComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

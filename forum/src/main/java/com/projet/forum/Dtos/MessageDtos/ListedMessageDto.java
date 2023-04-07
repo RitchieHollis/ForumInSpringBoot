@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public record ListedMessageDto(
 
+    Long id,
     String post_name,
     String channel_name,
     String content,

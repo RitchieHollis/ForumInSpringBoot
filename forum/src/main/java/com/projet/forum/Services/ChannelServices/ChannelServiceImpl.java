@@ -78,6 +78,12 @@ public class ChannelServiceImpl implements ChannelService{
         }
     }
 
+    @Override public ChannelEntity getChannelById(Long id){
+
+        ChannelEntity channel = repository.findById(id).get();
+        return channel;
+    }
+
     @Override public List<ChannelEntity> showAllChannelsOfCategory(Category category){
 
         for(Category c : Category.values()){

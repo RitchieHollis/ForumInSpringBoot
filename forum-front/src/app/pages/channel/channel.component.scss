@@ -1,0 +1,22 @@
+ul{
+
+    list-style-type: none;
+}
+li{
+
+    border: 2px double rgba(45, 62, 98, 0.75);
+}
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.latest_post{
+
+    border: 1px groove black;
+}
+
+.latest_post_li{
+
+    display: inline;
+    margin: 0px 25px;
+}

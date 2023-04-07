@@ -9,6 +9,7 @@ import java.util.Objects;
 
 public record UserInfoProfileDto(
 
+    Long id,
     String login,
     byte[] img,
     Status status,

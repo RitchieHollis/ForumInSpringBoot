@@ -2,6 +2,7 @@ package com.projet.forum.Controllers;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
+@CrossOrigin("http://localhost:4200")
 public class PostController {
     
     private final PostServiceImpl service;
@@ -45,6 +47,7 @@ public class PostController {
 
         return ResponseEntity.ok(messages.stream().map(
             message -> new ShowMessageDto(
+                message.getId(),
                 message.getUser_author().getUser_info().getLogin(),
                 message.getCreated_at(), 
                 message.getModified_at(), 
