@@ -1,1 +1,14 @@
 <p>post works!</p>
+
+<ul>
+    <li *ngFor="let message of messages">
+        <p><a [routerLink]="['/user/'+message.userId]">{{message.userLogin}}</a></p>
+        <div>
+            <p>Created: {{message.created_at}}</p>
+            <p>Modified: {{message.modified_at}}</p>
+        </div>
+        <p class="text">{{message.content}}</p>
+    </li>
+</ul>
+
+

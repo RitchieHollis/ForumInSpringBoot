@@ -7,6 +7,7 @@ public record ShowMessageDto(
 
     Long id,
     String userLogin,
+    Long userId,
     LocalDateTime created_at,
     LocalDateTime modified_at,
     //String citation,

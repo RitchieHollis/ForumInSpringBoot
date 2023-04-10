@@ -49,6 +49,7 @@ public class PostController {
             message -> new ShowMessageDto(
                 message.getId(),
                 message.getUser_author().getUser_info().getLogin(),
+                message.getUser_author().getId(),
                 message.getCreated_at(), 
                 message.getModified_at(), 
                 //null, 

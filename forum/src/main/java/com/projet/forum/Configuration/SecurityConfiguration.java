@@ -84,9 +84,10 @@ public class SecurityConfiguration {
                         //.requestMatchers("/login").permitAll()
                         .requestMatchers("/sign_up/*").permitAll()
                         .requestMatchers("/users_info/*").permitAll()
+                        .requestMatchers("/post").permitAll()
                         .requestMatchers("/login").anonymous()
                         .requestMatchers("/testAuth").authenticated()
-                        .requestMatchers("posts/createPost").authenticated()
+                        .requestMatchers("/posts/createPost").authenticated()
                         .requestMatchers("/admin/**").authenticated();
                         try{
                             registry.anyRequest().authenticated().and().sessionManagement(

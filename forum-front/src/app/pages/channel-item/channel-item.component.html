@@ -1,14 +1,14 @@
-<p>channel-item works!</p>
+<p>{{channelName}}</p>
 
 <ul>
     <li *ngFor="let post of posts">
-        <p> <a [routerLink]="['post/'+post.id]">{{ post.title }}</a> </p>
-        <p>Author: <a [routerLink]="['user/'+post.op_id]">{{post.op_login}}</a></p>
+        <p> <a [routerLink]="['/post/'+post.id]">{{ post.title }}</a> </p>
+        <p>Author: <a [routerLink]="['/user/'+post.op_id]">{{post.op_login}}</a></p>
         <p>Created at: {{post.created_at}} </p>
         <p>Number of messages: {{post.numberMessages}}</p>
         <p>Viewed {{post.numberOfViews}} times</p>
         <div>
-            <p>Last message by <a [routerLink]="['user/'+post.last_user_id]">{{post.last_user_login}}</a></p>
+            <p>Last message by <a [routerLink]="['/user/'+post.last_user_id]">{{post.last_user_login}}</a></p>
             <p>{{post.last_message_content}}</p>
             <p>Last modification on {{post.modified_at}}</p>
         </div>>

@@ -6,8 +6,8 @@
         <p>Number of posts: {{channel.numberPosts}}</p>
         <p>Latest post in channel: </p>
         <ul class ="latest_post">
-            <li class="latest_post_li"> <a [routerLink]="['post/'+channel.latestPost.id]">{{channel.latestPost.title}}</a> </li>
-            <li class="latest_post_li">Created by <a [routerLink]="['user/'+channel.latestPost.user_id]">{{channel.latestPost.user_login}}</a> </li>
+            <li class="latest_post_li"> <a [routerLink]="['/post/'+channel.latestPost.id]">{{channel.latestPost.title}}</a> </li>
+            <li class="latest_post_li">Created by <a [routerLink]="['/user/'+channel.latestPost.user_id]">{{channel.latestPost.user_login}}</a> </li>
             <li class="latest_post_li"> {{channel.latestPost.modified_at}} </li>
         </ul>
     </li>
