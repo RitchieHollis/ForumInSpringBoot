@@ -1,4 +1,29 @@
+ul{
+    list-style-type: none;
+}
 .text{
 
     border: 1px double black;
+    margin: 5px 50px;
+}
+.info{
+    display: inline;
+    margin: 0px 25px;
+    color: white;
+    text-align: center;
+}
+div{
+    background-color: rgba(45, 62, 98, 0.75);
+
+}
+.info_user_label{
+    
+    float: left;
+    width: 100px;
+    opacity: 0;
+    position: absolute;
+    transition: ease-in-out all .4s;
+}
+#info_user:hover .info_user_label{
+    opacity: 1;
 }

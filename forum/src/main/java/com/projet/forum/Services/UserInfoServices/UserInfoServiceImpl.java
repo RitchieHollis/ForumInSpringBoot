@@ -2,6 +2,9 @@ package com.projet.forum.Services.UserInfoServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
+import com.projet.forum.Entities.UserEntity;
 import com.projet.forum.Repositories.UserInfoRepository;
 import com.projet.forum.Repositories.UserRepository;
 
@@ -15,6 +18,19 @@ public class UserInfoServiceImpl implements UserInfoService{
     public UserInfoServiceImpl(UserInfoRepository uir, UserRepository ur){
         this.repository = uir;
         this.u_repository = ur;
+    }
+
+    @Override
+    public UserInfoStateDto showUserInHover(Long id) {
+        
+        UserEntity user = u_repository.findById(id).get();
+        UserInfoStateDto dto = new UserInfoStateDto(id,
+                                                    user.getUser_info().getLogin(),
+                                                    user.getUser_info().getStatus(),
+                                                    user.getUser_info().getProfile_picture(),
+                                                    user.getRole());
+                                                
+        return dto;
     }
 
    /*  @Override public Map<String, Status> displayTextInfo(Long id){

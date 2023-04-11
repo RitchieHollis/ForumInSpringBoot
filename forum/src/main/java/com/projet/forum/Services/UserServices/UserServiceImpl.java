@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.Role;
 import com.projet.forum.Entities.Status;
@@ -153,5 +154,4 @@ public class UserServiceImpl implements UserService {
 
         return authorities;
     }*/
-    
 }

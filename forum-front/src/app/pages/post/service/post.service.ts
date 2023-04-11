@@ -14,10 +14,19 @@ export class PostService {
 
   getMessagesByPostId(id : number): Observable<ShowMessage[]>{
 
-    return this.http.get<ShowMessage[]>(BASE_URL + "/post", {
+    return this.http.get<ShowMessage[]>(BASE_URL + "post", {
       params: {
-        channel : id
+        id
       }
+    })
+  }
+
+  getNameById(id : number): Observable<{name: string}>{
+
+    return this.http.get<{name:string}>(BASE_URL + "post/getName", {
+      params: {
+        id
+      },
     })
   }
 }

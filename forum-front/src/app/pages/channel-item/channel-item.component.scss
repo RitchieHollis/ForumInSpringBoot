@@ -1,0 +1,18 @@
+li{
+
+    border: 2px double rgba(45, 62, 98, 0.75);
+    list-style-type: none;
+}
+.message{
+    border: 1px double blue;
+}
+.info{
+    display: inline;
+    margin: 0px 25px;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    color: blue;
+}

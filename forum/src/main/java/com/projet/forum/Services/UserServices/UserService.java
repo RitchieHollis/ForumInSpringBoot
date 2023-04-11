@@ -3,6 +3,7 @@ package com.projet.forum.Services.UserServices;
 import java.util.List;
 import java.util.Optional;
 
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
 import com.projet.forum.Entities.MessageEntity;
 import com.projet.forum.Entities.UserEntity;
 

@@ -80,14 +80,15 @@ public class SecurityConfiguration {
         http.cors().and().csrf().disable()
              .authorizeHttpRequests(registry -> {
                 registry.requestMatchers("/channels/*").permitAll()
-                    .requestMatchers("/channels").permitAll()
-                        //.requestMatchers("/login").permitAll()
-                        .requestMatchers("/sign_up/*").permitAll()
-                        .requestMatchers("/users_info/*").permitAll()
-                        .requestMatchers("/post").permitAll()
-                        .requestMatchers("/login").anonymous()
-                        .requestMatchers("/testAuth").authenticated()
-                        .requestMatchers("/posts/createPost").authenticated()
+                .requestMatchers("/channels").permitAll()
+                //.requestMatchers("/login").permitAll()
+                .requestMatchers("/sign_up/*").permitAll()
+                .requestMatchers("/users_info/*").permitAll()
+                .requestMatchers("/post").permitAll()
+                .requestMatchers("/post/getName").permitAll()
+                .requestMatchers("/login").anonymous()
+                .requestMatchers("/testAuth").authenticated()
+                .requestMatchers("/posts/createPost").authenticated()
                         .requestMatchers("/admin/**").authenticated();
                         try{
                             registry.anyRequest().authenticated().and().sessionManagement(

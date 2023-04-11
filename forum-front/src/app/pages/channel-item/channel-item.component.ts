@@ -13,6 +13,8 @@ export class ChannelItemComponent implements OnInit{
 
   posts : ListedPost[] = []
   channelName! : ChannelName
+  idChannel! : number
+  id! : number
 
   constructor(
     private ChannelItemService : ChannelItemService,
@@ -21,19 +23,22 @@ export class ChannelItemComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    this.idChannel = this.route.snapshot.params["id"];
     
-    this.route.params.subscribe(
-      (params) => {
-        const idChannel = params["id"] as number
-        if (idChannel) {
-          this.ChannelItemService.getPostsByChannelId(idChannel)
+    // this.route.params.subscribe(
+    //   (params) => {
+    //     const idChannel = params["id"] as number
+        if (this.idChannel) {
+          this.ChannelItemService.getPostsByChannelId(this.idChannel)
             .subscribe((data : ListedPost[]) => {
               this.posts = data
-              this.channelName = this.ChannelItemService.getNameOfChannelById(idChannel).subscribe
+              this.ChannelItemService.getNameOfChannelById(this.idChannel).subscribe(data => this.channelName = data)
+              this.id = this.idChannel
             })
-        }
-      }
-    )
+         }
+      // }
+    //)
   }
 
 }

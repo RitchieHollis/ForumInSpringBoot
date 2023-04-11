@@ -1,3 +1,5 @@
+import { UserState } from "./user-state"
+
 export interface ShowMessage{
 
     id: number,
@@ -5,5 +7,6 @@ export interface ShowMessage{
     userId : number
     created_at: Date,
     modified_at: Date,
-    content: string
+    content: string,
+    userState: UserState
 }

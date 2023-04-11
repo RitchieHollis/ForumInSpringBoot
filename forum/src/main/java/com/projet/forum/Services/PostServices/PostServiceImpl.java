@@ -110,4 +110,11 @@ public class PostServiceImpl implements PostService{
         }
         else return null;
     }
+
+    @Override public String getPostNameById(Long id) {
+        
+        PostEntity post = repository.findById(id).get();
+
+        return post.getTitle();
+    }
 }

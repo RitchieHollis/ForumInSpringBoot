@@ -3,6 +3,8 @@ package com.projet.forum.Dtos.MessageDtos;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.projet.forum.Dtos.UserInfoDtos.UserInfoStateDto;
+
 public record ShowMessageDto(
 
     Long id,
@@ -11,7 +13,8 @@ public record ShowMessageDto(
     LocalDateTime created_at,
     LocalDateTime modified_at,
     //String citation,
-    String content
+    String content,
+    UserInfoStateDto userState
 
 ) 
 {

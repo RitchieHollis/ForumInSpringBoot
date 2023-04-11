@@ -1,11 +1,21 @@
-<p>post works!</p>
+<head>
+    <title>{{postName}}</title>
+</head>
+
+<p><a [routerLink]="['/channel-item/'+'{{idPost}}']">Retour</a></p>
+<h2>{{postName}}</h2>
 
 <ul>
     <li *ngFor="let message of messages">
-        <p><a [routerLink]="['/user/'+message.userId]">{{message.userLogin}}</a></p>
         <div>
-            <p>Created: {{message.created_at}}</p>
-            <p>Modified: {{message.modified_at}}</p>
+            <p class ="info"><a id="info_user" [routerLink]="['/user/'+message.userId]">{{message.userLogin}}</a></p>
+                <div class="info_user_label">
+                    <p>{{message.userState.login}}</p>
+                    <p>{{message.userState.role}}</p>
+                    <p>{{message.userState.status}}</p>
+                </div>
+            <p class="info"class="info">Created: {{message.created_at}}</p>
+            <p class="info">Modified: {{message.modified_at}}</p>
         </div>
         <p class="text">{{message.content}}</p>
     </li>

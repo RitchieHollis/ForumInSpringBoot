@@ -1,16 +1,21 @@
-<p>{{channelName}}</p>
-
+<head>
+    <title>{{channelName.name}}</title>
+</head>
+<body>
+<p><a [routerLink]="['/channel/'+'{{id}}']">Retour</a></p>
+<h2>{{channelName.name}}</h2>
 <ul>
     <li *ngFor="let post of posts">
-        <p> <a [routerLink]="['/post/'+post.id]">{{ post.title }}</a> </p>
-        <p>Author: <a [routerLink]="['/user/'+post.op_id]">{{post.op_login}}</a></p>
-        <p>Created at: {{post.created_at}} </p>
-        <p>Number of messages: {{post.numberMessages}}</p>
-        <p>Viewed {{post.numberOfViews}} times</p>
-        <div>
+        <p class="info"> <a [routerLink]="['/post/'+post.id]">{{ post.title }}</a> </p>
+        <p class="info">Author: <a [routerLink]="['/user/'+post.op_id]">{{post.op_login}}</a></p>
+        <p class="info">Created at: {{post.created_at}} </p>
+        <p class="info">Number of messages: {{post.numberMessages}}</p>
+        <p class="info">Viewed {{post.numberOfViews}} times</p>
+        <div class="message">
             <p>Last message by <a [routerLink]="['/user/'+post.last_user_id]">{{post.last_user_login}}</a></p>
             <p>{{post.last_message_content}}</p>
             <p>Last modification on {{post.modified_at}}</p>
-        </div>>
+        </div>
     </li>
 </ul>
+</body>

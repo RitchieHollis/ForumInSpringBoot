@@ -11,6 +11,8 @@ import { PostService } from './service/post.service';
 export class PostComponent implements OnInit{
 
   messages: ShowMessage[] = []
+  postName! : string
+  idPost! : number
 
   constructor(
     private PostService : PostService,
@@ -22,11 +24,13 @@ export class PostComponent implements OnInit{
     
     this.route.params.subscribe(
       (params) => {
-        const idPost = params["id"] as number
-        if (idPost) {
-          this.PostService.getMessagesByPostId(idPost)
+        this.idPost = params["id"] as number
+        if (this.idPost) {
+          this.PostService.getMessagesByPostId(this.idPost)
             .subscribe((data : ShowMessage[]) => {
               this.messages = data
+              this.PostService.getNameById(this.idPost)
+              .subscribe(({name}) => this.postName = name)
             })
         }
       }
