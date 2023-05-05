@@ -48,17 +48,15 @@ public class ChannelController {
 
         return ResponseEntity.ok(channels.stream().map(
 
+
             it -> new ListedChannelDto( 
 
-                it.getId(), it.getTitle(), service.showNumberOfPosts(it.getId()), new LatestPostDto(
-                    service.showLatestPostOfChannel(it.getId()).getId(),
-                    service.showLatestPostOfChannel(it.getId()).getTitle(),
-                    p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId()).
-                        getUser_author().getUser_info().getLogin(), 
-                    p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId()).
-                    getUser_author().getId(),
-                    service.showLatestPostOfChannel(it.getId()).getModified_at())
-                    ,it.getCategory().toString())).toList()
+                it.getId(), 
+                it.getTitle(), 
+                service.showNumberOfPosts(it.getId()), 
+                LatestPostDto.createDto(service.showLatestPostOfChannel(it.getId()), p_service.showLatestMessage(service.showLatestPostOfChannel(it.getId()).getId())),
+                it.getCategory().toString()))
+                .toList()
                 );
     }
 
@@ -76,20 +74,9 @@ public class ChannelController {
 
         List<PostEntity> posts = service.showAllPosts(cId);
         System.out.println(posts.get(0).getTitle());
+        
         return ResponseEntity.ok(posts.stream().map(
-            post -> new ListedPostDto(
-                post.getId(),
-                post.getTitle(), 
-                p_service.showAllMessages(post.getId()).get(0).getUser_author().getUser_info().getLogin(),
-                p_service.showAllMessages(post.getId()).get(0).getUser_author().getId(),
-                post.getCreated_at(),
-                p_service.showAllMessages(post.getId()).size(),
-                post.getNb_views(),
-                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getUser_author().getUser_info().getLogin(),
-                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getUser_author().getId(),
-                p_service.showAllMessages(post.getId()).get(p_service.showAllMessages(post.getId()).size()-1).getContent(),
-                post.getModified_at()
-            )
+            post -> ListedPostDto.createDto(post, p_service.showAllMessages(post.getId()))
         ).toList());
     }
 }
