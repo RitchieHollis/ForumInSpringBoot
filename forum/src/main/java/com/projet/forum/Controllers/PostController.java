@@ -49,7 +49,6 @@ public class PostController {
     public ResponseEntity<List<ShowMessageDto>> showAllMessages(@RequestParam(name="id") Long id){
 
         List<MessageEntity> messages = service.showAllMessages(id);
-        UserInfoStateDto dto;
 
         return ResponseEntity.ok(messages.stream().map(
             message -> new ShowMessageDto(

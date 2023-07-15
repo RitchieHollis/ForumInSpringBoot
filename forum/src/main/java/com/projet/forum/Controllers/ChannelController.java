@@ -78,5 +78,6 @@ public class ChannelController {
         return ResponseEntity.ok(posts.stream().map(
             post -> ListedPostDto.createDto(post, p_service.showAllMessages(post.getId()))
         ).toList());
+        
     }
 }

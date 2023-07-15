@@ -4,6 +4,9 @@
 <body>
 <h2>{{ title }}</h2>
 
+<div *ngIf="!channels|| channels.length === 0">
+    <p id="NotFound">No posts found</p>
+</div>
 <ul>
     <li *ngFor="let channel of channels">
         <p> <a [routerLink]="['/channel-item/'+channel.id]">{{channel.title}}</a> </p>
